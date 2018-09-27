@@ -6,29 +6,44 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class AdminUser {
+public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String userName;
     private String fullName;
     private String email;
-    private int contact_no;
+    private String contactNo;
     private String password;
+    private boolean status;
 
-    public AdminUser(String userName, String fullName, String email, int contact_no, String password) {
+    public Account() {
+    }
+
+    public Account(String userName, String fullName, String email, String contactNoo, String password) {
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
-        this.contact_no = contact_no;
+        this.contactNo = contactNo;
         this.password = password;
     }
 
-    public AdminUser(Long id) {
-        this.id = id;
+
+    public boolean isStatus() {
+        return status;
     }
 
-    public AdminUser() {
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUserName() {
@@ -55,12 +70,12 @@ public class AdminUser {
         this.email = email;
     }
 
-    public int getContact_no() {
-        return contact_no;
+    public String getContactNo() {
+        return contactNo;
     }
 
-    public void setContact_no(int contact_no) {
-        this.contact_no = contact_no;
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
     }
 
     public String getPassword() {
@@ -69,13 +84,5 @@ public class AdminUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
