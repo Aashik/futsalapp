@@ -1,56 +1,65 @@
 package com.futsalmanagement.futsalapp.entity;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
 
 @Entity
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long account_id;
-    private String user_name;
-    private String password;
+    private int id;
+    private String userName;
+    private String fullName;
     private String email;
-    private Date time_stamp;
-    private boolean account_status;
+    private String contactNo;
+    private String password;
+    private boolean status;
 
     public Account() {
     }
 
-    public Account(String user_name, String password, String email, Date time_stamp, boolean account_status) {
-        this.user_name = user_name;
-        this.password = password;
+    public Account(String userName, String fullName, String email, String contactNoo, String password) {
+        this.userName = userName;
+        this.fullName = fullName;
         this.email = email;
-        this.time_stamp = time_stamp;
-        this.account_status = account_status;
-    }
-
-    public Long getAccount_id() {
-        return account_id;
-    }
-
-    public void setAccount(Long account_id) {
-        this.account_id = account_id;
-    }
-
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+        this.contactNo = contactNo;
         this.password = password;
+    }
+
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -61,19 +70,19 @@ public class Account {
         this.email = email;
     }
 
-    public Date getTime_stamp() {
-        return time_stamp;
+    public String getContactNo() {
+        return contactNo;
     }
 
-    public void setTime_stamp(Date time_stamp) {
-        this.time_stamp = time_stamp;
+    public void setContactNo(String contactNo) {
+        this.contactNo = contactNo;
     }
 
-    public boolean isAccount_Status() {
-        return account_status;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAccount_Status(boolean account_Status) {
-        this.account_status = account_Status;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
