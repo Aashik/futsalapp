@@ -1,7 +1,10 @@
 package com.futsalmanagement.futsalapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 public class Futsal {
@@ -17,13 +20,17 @@ public class Futsal {
     private String contact_no;
     @Size(max = 15)
     private String mobile_no;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id" )
     private Address address;
     @Size(max = 100)
     private String email;
     @Size(max = 100)
     private String image_url;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "futsal")
+    private Set<Ground> ground;
+
 
 
     public Futsal(int futsal_id, String contact_no, String mobile_no, Address address, String email, String image_url) {
@@ -100,5 +107,19 @@ public class Futsal {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    @Override
+    public String toString() {
+        return "Futsal{" +
+                "futsal_id=" + futsal_id +
+                ", futsal_name='" + futsal_name + '\'' +
+                ", futsal_code='" + futsal_code + '\'' +
+                ", contact_no='" + contact_no + '\'' +
+                ", mobile_no='" + mobile_no + '\'' +
+                ", address=" + address +
+                ", email='" + email + '\'' +
+                ", image_url='" + image_url + '\'' +
+                '}';
     }
 }

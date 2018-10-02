@@ -27,4 +27,12 @@ public class FutsalServiceImpl implements FutsalService {
         return (foundFutsal != null)? true:false;
 
     }
+
+    @Override
+    public Futsal getFutsalByCode(String futsal_code) {
+        List<Futsal> futsallist = futsalDao.findAll();
+        Futsal foundfutsal = futsallist.stream()
+                .filter(futsal -> futsal_code.equals(futsal.getFutsal_code())).findAny().orElse(null);
+        return foundfutsal;
+    }
 }

@@ -79,6 +79,7 @@ public class AccountController {
 
                 if (loginInstance != null) {
                     GlobalResponse response = new GlobalResponse(Status.SUCCESS, "logged in successfully", login);
+
                     return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
                 }
 
