@@ -26,8 +26,9 @@ public class FutsalController {
     @RequestMapping(value = "api/addFutsal", method = RequestMethod.POST)
     public ResponseEntity<GlobalResponse> addFutsal(@RequestBody Futsal futsal) {
 
-        if (!futsalService.checkFutsalDuplication(futsal.getFutsal_code())) {
-
+        if (futsalService.checkFutsalAvailability(futsal.getFutsal_id())) {
+            Futsal foundfutsal = futsalService.getFutsalById(futsal.getFutsal_id());
+            futsal.setAddress(foundfutsal.getAddress());
             Futsal insertedFutsal = futsalService.insert(futsal);
             if (insertedFutsal != null) {
                 GlobalResponse response = new GlobalResponse(Status.SUCCESS, "futsal added successfully", insertedFutsal);
@@ -37,17 +38,16 @@ public class FutsalController {
             return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
         }
 
-        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Duplicate futsal. Try again", null);
+  GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Duplicate futsal. Try again", null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value = "api/addGround", method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> addGround(@RequestBody Ground g, @RequestParam("futsal_code") String futsal_code) {
+    public ResponseEntity<GlobalResponse> addGround(@RequestBody Ground g, @RequestParam("futsal_id") int futsal_id) {
 
-        Futsal foundFutsal = futsalService.getFutsalByCode(futsal_code);
+        Futsal foundFutsal = futsalService.getFutsalById(futsal_id);
 
         System.out.println("found footsall -->> "+ foundFutsal);
-
 
         if (foundFutsal != null) {
           g.setFutsal(foundFutsal);

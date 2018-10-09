@@ -21,6 +21,8 @@ public class Ground {
     private BigDecimal unit_hour_price;
     @Size(max = 100)
     private String image;
+    @Size(max = 100)
+    private String status;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "futsal_id")
@@ -28,6 +30,14 @@ public class Ground {
 
 
     public Ground() {
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getGround_id() {

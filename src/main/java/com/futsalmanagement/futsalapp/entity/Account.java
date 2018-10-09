@@ -1,9 +1,8 @@
 package com.futsalmanagement.futsalapp.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
 
 @Entity
 public class Account {
@@ -17,6 +16,13 @@ public class Account {
     private String contactNo;
     private String password;
     private boolean status;
+    @ManyToOne
+    @JoinColumn(name = "user_group_id")
+    private UserGroup userGroup;
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "futsal_id")
+    private Futsal futsal;
 
     public Account() {
     }
@@ -29,6 +35,21 @@ public class Account {
         this.password = password;
     }
 
+    public Futsal getFutsal() {
+        return futsal;
+    }
+
+    public void setFutsal(Futsal futsal) {
+        this.futsal = futsal;
+    }
+
+    public UserGroup getUserGroup() {
+        return userGroup;
+    }
+
+    public void setUserGroup(UserGroup userGroup) {
+        this.userGroup = userGroup;
+    }
 
     public boolean isStatus() {
         return status;
@@ -85,4 +106,5 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

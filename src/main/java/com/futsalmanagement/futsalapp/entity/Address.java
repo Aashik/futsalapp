@@ -1,5 +1,7 @@
 package com.futsalmanagement.futsalapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -16,8 +18,9 @@ public class Address {
     @Size(max = 50)
     private String state_district;
     @Size(max = 50)
-    private String Country;
+    private String country;
     private long zip_postal_code;
+    @JsonManagedReference
     @OneToOne(mappedBy = "address")
     private Futsal futsal;
 
@@ -26,7 +29,7 @@ public class Address {
         this.street = street;
         this.city = city;
         this.state_district = state_district;
-        Country = country;
+        this.country = country;
         this.zip_postal_code = zip_postal_code;
     }
 
@@ -74,11 +77,11 @@ public class Address {
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
     public void setCountry(String country) {
-        Country = country;
+        this.country = country;
     }
 
     public long getZip_postal_code() {

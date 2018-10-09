@@ -49,4 +49,5 @@ public class AccountServiceImpl implements AccountService {
 
         return  (givenPassword.equals(toCheckpassword)) ? foundAccount : null;
     }
+
 }

@@ -1,35 +1,36 @@
 package com.futsalmanagement.futsalapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Futsal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int futsal_id;
-    @Size(max = 100)
     private String futsal_name;
-    @Size(max = 50)
-    private String futsal_code;
-    @Size(max = 15)
     private String contact_no;
-    @Size(max = 15)
     private String mobile_no;
     @OneToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id" )
+    @JsonBackReference
     private Address address;
-    @Size(max = 100)
     private String email;
-    @Size(max = 100)
     private String image_url;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "futsal")
     private Set<Ground> ground;
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "futsal")
+    private Set<Account> account;
 
 
 
@@ -43,14 +44,6 @@ public class Futsal {
     }
 
     public Futsal() {
-    }
-
-    public String getFutsal_code() {
-        return futsal_code;
-    }
-
-    public void setFutsal_code(String futsal_code) {
-        this.futsal_code = futsal_code;
     }
 
     public String getFutsal_name() {
@@ -114,7 +107,6 @@ public class Futsal {
         return "Futsal{" +
                 "futsal_id=" + futsal_id +
                 ", futsal_name='" + futsal_name + '\'' +
-                ", futsal_code='" + futsal_code + '\'' +
                 ", contact_no='" + contact_no + '\'' +
                 ", mobile_no='" + mobile_no + '\'' +
                 ", address=" + address +

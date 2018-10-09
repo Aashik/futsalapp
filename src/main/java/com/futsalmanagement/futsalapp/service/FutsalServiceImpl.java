@@ -1,6 +1,7 @@
 package com.futsalmanagement.futsalapp.service;
 
 import com.futsalmanagement.futsalapp.dao.FutsalDao;
+import com.futsalmanagement.futsalapp.entity.Address;
 import com.futsalmanagement.futsalapp.entity.Futsal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,19 +21,25 @@ public class FutsalServiceImpl implements FutsalService {
     }
 
     @Override
-    public boolean checkFutsalDuplication(String futsal_code) {
-        List<Futsal> futsallist = futsalDao.findAll();
-        Futsal foundFutsal = futsallist.stream()
-                .filter(futsal -> futsal_code.equals(futsal.getFutsal_code())).findAny().orElse(null);
-        return (foundFutsal != null)? true:false;
-
+    public Futsal getFutsalById(int futsal_id) {
+        Futsal futsal = futsalDao.getOne(futsal_id);
+        return futsal;
     }
 
     @Override
-    public Futsal getFutsalByCode(String futsal_code) {
-        List<Futsal> futsallist = futsalDao.findAll();
-        Futsal foundfutsal = futsallist.stream()
-                .filter(futsal -> futsal_code.equals(futsal.getFutsal_code())).findAny().orElse(null);
-        return foundfutsal;
+    public boolean checkFutsalAvailability(int futsal_id) {
+        Futsal futsal = futsalDao.getOne(futsal_id);
+        return (futsal != null) ? true : false;
     }
+
+
+    //    @Override
+//    public Futsal getFutsalByCode(String futsal_code) {
+//        List<Futsal> futsallist = futsalDao.findAll();
+//        Futsal foundfutsal = futsallist.stream()
+//                .filter(futsal -> futsal_code.equals(futsal.getFutsal_code())).findAny().orElse(null);
+//        return foundfutsal;
+//    }
+
+
 }
