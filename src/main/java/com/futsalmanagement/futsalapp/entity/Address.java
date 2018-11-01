@@ -21,7 +21,7 @@ public class Address {
     private String country;
     private long zip_postal_code;
     @JsonManagedReference
-    @OneToOne(mappedBy = "address")
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Futsal futsal;
 
     public Address(int address_id, String street, String city, String state_district, String country, long zip_postal_code) {

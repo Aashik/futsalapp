@@ -19,8 +19,8 @@ public class Futsal {
     private String futsal_name;
     private String contact_no;
     private String mobile_no;
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id" )
+    @OneToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
     @JsonBackReference
     private Address address;
     private String email;
@@ -31,6 +31,11 @@ public class Futsal {
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "futsal")
     private Set<Account> account;
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "futsal")
+//    private Set<Booking> bookings;
+
+
 
 
 
@@ -45,6 +50,30 @@ public class Futsal {
 
     public Futsal() {
     }
+
+    public Set<Ground> getGround() {
+        return ground;
+    }
+
+    public void setGround(Set<Ground> ground) {
+        this.ground = ground;
+    }
+
+    public Set<Account> getAccount() {
+        return account;
+    }
+
+    public void setAccount(Set<Account> account) {
+        this.account = account;
+    }
+
+//    public Set<Booking> getBookings() {
+//        return bookings;
+//    }
+//
+//    public void setBookings(Set<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
 
     public String getFutsal_name() {
         return futsal_name;

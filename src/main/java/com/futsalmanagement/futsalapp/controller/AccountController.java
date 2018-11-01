@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -38,7 +38,7 @@ public class AccountController {
     @Autowired
     private FutsalService futsalService;
 
-//this api will be user only by the developers team to create the initial user for the futsal owner
+    //this api will be user only by the developers team to create the initial user for the futsal owner
     //after that the rest application management will be done by the owner and respective employee
 
     @RequestMapping(value = "/api/admin/signup", method = RequestMethod.POST)
@@ -174,6 +174,19 @@ public class AccountController {
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
 
 
+    }
+
+    @RequestMapping(value = "api/admin/getAllEmployee" , method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getAllEmployee(@RequestParam("futsal_id") int futsal_id){
+
+        if(futsalService.checkFutsalAvailability(futsal_id)){
+
+            List<Account> employeeaccountlist = accountService.getAllAccountOfFutsal(futsal_id);
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "All employee retrieved" , employeeaccountlist);
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid futsal id. Try again" , null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
 

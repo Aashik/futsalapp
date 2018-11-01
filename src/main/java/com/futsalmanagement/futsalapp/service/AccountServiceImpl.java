@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -50,4 +51,12 @@ public class AccountServiceImpl implements AccountService {
         return  (givenPassword.equals(toCheckpassword)) ? foundAccount : null;
     }
 
+    @Override
+    public List<Account> getAllAccountOfFutsal(int futsal_id) {
+        List<Account> foundAccountlist = accountDao.findAll().stream()
+                .filter(account -> account.getFutsal().getFutsal_id() == futsal_id && account.getUserGroup().getUser_group_id() == 2)
+                .collect(Collectors.toList());
+        return foundAccountlist.stream()
+                .map(account -> account.toEmployeeFormat()).collect(Collectors.toList());
+    }
 }

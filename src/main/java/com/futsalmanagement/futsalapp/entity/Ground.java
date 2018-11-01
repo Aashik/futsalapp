@@ -1,11 +1,13 @@
 package com.futsalmanagement.futsalapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Entity
 public class Ground {
@@ -27,10 +29,21 @@ public class Ground {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "futsal_id")
     private Futsal futsal;
+//    @JsonManagedReference
+//    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "ground")
+//    private Set<Booking> bookings;
 
 
     public Ground() {
     }
+
+//    public Set<Booking> getBookings() {
+//        return bookings;
+//    }
+//
+//    public void setBookings(Set<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
 
     public String getStatus() {
         return status;
