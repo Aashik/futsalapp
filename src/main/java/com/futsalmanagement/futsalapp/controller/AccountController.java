@@ -59,7 +59,7 @@ public class AccountController {
                 toBeInsertedAccount.setEmail(email);
                 toBeInsertedAccount.setContactNo(requestObject.getContactNo());
                 toBeInsertedAccount.setPassword(encyptedPassword);
-                toBeInsertedAccount.setUserGroup(userGroupService.getOwner());
+                    toBeInsertedAccount.setUserGroup(userGroupService.getOwner());
                 //Account insertAcc = accountService.insert(toBeInsertedAccount);
                 toBeInsertedAccount.setStatus(true);
                 Futsal futsal = new Futsal();
