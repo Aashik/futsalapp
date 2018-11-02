@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2018 at 05:13 PM
+-- Generation Time: Nov 01, 2018 at 04:20 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -45,13 +45,9 @@ CREATE TABLE `account` (
 --
 
 INSERT INTO `account` (`id`, `contact_no`, `email`, `full_name`, `password`, `status`, `user_name`, `user_group_id`, `futsal_id`) VALUES
-(3, '9849581817', 'bhandariram@gmail.com', 'Ram Bhandari', '50c9c33f8cbadf17c88219b23b7133c64834ef37f9cbbab0b770f4e73af1518f99e3b9f089cea7e4744c95811b9270bebddd85e525246eb084f7c7c117531d2c', 1, 'Ram', NULL, NULL),
-(4, '9849581817', 'bhandarijohn@gmail.com', 'Ram Bhandari', '50c9c33f8cbadf17c88219b23b7133c64834ef37f9cbbab0b770f4e73af1518f99e3b9f089cea7e4744c95811b9270bebddd85e525246eb084f7c7c117531d2c', 1, 'Johndoe', NULL, NULL),
-(5, '9849581817', 'donsume@gmail.com', 'sume Don', 'd6e1ba9bcde4b70f2bc269e76c2a2bc322143d3703b1b790f3421deb9cef4f2d70ef9df1d8948462d98df972d468008670177cc2adcead3f2de384ea83fffb38', 1, 'Sumedon', NULL, NULL),
-(6, '9849581817', 'test@gmail.com', 'Test Doe', 'e7b1c9017b8df8e359decce402f4af9320c1a2f16c8c87004c213659895366c0d01375659792a572d0b59186a9e25967512f60c8b05479db600c6d3cbd1741b8', 1, 'testuser', 1, NULL),
-(7, '9849581817', 'normal@gmail.com', 'Test Doe', 'e7b1c9017b8df8e359decce402f4af9320c1a2f16c8c87004c213659895366c0d01375659792a572d0b59186a9e25967512f60c8b05479db600c6d3cbd1741b8', 1, 'testnormal', 2, NULL),
 (16, '9849581817', 'Sagar@gmail.com', 'Sagar Bhandari', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 1, 'sagar', 1, 531),
-(17, '9849581817', 'surya@gmail.com', 'surya kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 0, 'surya', 2, 531);
+(17, '9849581817', 'surya@gmail.com', 'surya kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 0, 'surya', 2, 531),
+(18, '9849581817', 'haria@gmail.com', 'hari kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 0, 'hari', 2, 531);
 
 --
 -- Triggers `account`
@@ -96,7 +92,9 @@ INSERT INTO `account_operation_jn` (`id`, `user_id`, `username`, `operation`, `d
 (12, 14, 'sagar', 'INS', '2018-10-09 12:38:03', 'test'),
 (13, 15, 'sagar', 'INS', '2018-10-09 12:43:51', 'test'),
 (14, 16, 'sagar', 'INS', '2018-10-09 13:31:55', 'test'),
-(15, 17, 'surya', 'INS', '2018-10-09 15:10:29', 'test');
+(15, 17, 'surya', 'INS', '2018-10-09 15:10:29', 'test'),
+(16, 18, 'hari', 'INS', '2018-10-11 17:24:13', 'test'),
+(17, 19, 'suryaaaaaa', 'INS', '2018-10-12 15:12:09', 'test');
 
 -- --------------------------------------------------------
 
@@ -125,6 +123,36 @@ INSERT INTO `address` (`address_id`, `country`, `city`, `state_district`, `stree
 (528, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754),
 (530, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754),
 (532, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `booking`
+--
+
+CREATE TABLE `booking` (
+  `booking_id` int(11) NOT NULL,
+  `booking_code` varchar(50) DEFAULT NULL,
+  `booking_date` varchar(10) DEFAULT NULL,
+  `booking_duration` double NOT NULL,
+  `booking_status` varchar(50) DEFAULT NULL,
+  `booking_time` varchar(10) DEFAULT NULL,
+  `contact_num` varchar(20) DEFAULT NULL,
+  `futsal_id` int(11) DEFAULT NULL,
+  `ground_id` int(11) DEFAULT NULL,
+  `full_name` varchar(50) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`booking_id`, `booking_code`, `booking_date`, `booking_duration`, `booking_status`, `booking_time`, `contact_num`, `futsal_id`, `ground_id`, `full_name`) VALUES
+(9, 'CF-1135', '2018-10-29', 1.5, 'PENDING', '19:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
+(4, 'CF-75', '2018-10-29', 1.5, 'PENDING', '10:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
+(8, 'CF-8946', '2018-10-30', 1.5, 'PENDING', '10:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
+(10, 'CF-7353', '2018-10-31', 1.5, 'CANCELLED', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
+(11, 'CF-4897', '2018-11-01', 2, 'PENDING', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari');
 
 -- --------------------------------------------------------
 
@@ -264,7 +292,8 @@ INSERT INTO `login` (`login_id`, `login_time`, `login_token`, `login_token_statu
 (7, NULL, 'aa9f7b7ba90abe290084e784d6e310ea', 1, 'gaida', 8),
 (8, NULL, '85992c42bad5c8e5b02006575822a6f3', 1, 'testuser', 6),
 (9, NULL, '0d133a840fd0d7a181b60b9d04450a04', 1, 'sagar', 16),
-(10, NULL, 'b3827ae0ae884cdb7d136ee5f0424f80', 1, 'surya', 17);
+(10, NULL, 'b3827ae0ae884cdb7d136ee5f0424f80', 1, 'surya', 17),
+(11, NULL, '551481c606b11957b32827aef34edbf4', 1, 'surya', 17);
 
 -- --------------------------------------------------------
 
@@ -334,6 +363,14 @@ ALTER TABLE `address`
   ADD PRIMARY KEY (`address_id`);
 
 --
+-- Indexes for table `booking`
+--
+ALTER TABLE `booking`
+  ADD PRIMARY KEY (`booking_id`),
+  ADD KEY `FKp6hoe2xhtk3syg671kafsijd` (`futsal_id`),
+  ADD KEY `FK9gygg2455povas0jvhvyj3cef` (`ground_id`);
+
+--
 -- Indexes for table `futsal`
 --
 ALTER TABLE `futsal`
@@ -380,13 +417,19 @@ ALTER TABLE `user_menu`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `account_operation_jn`
 --
 ALTER TABLE `account_operation_jn`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT for table `booking`
+--
+ALTER TABLE `booking`
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `futsal_operation_jn`
@@ -398,7 +441,7 @@ ALTER TABLE `futsal_operation_jn`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_group`

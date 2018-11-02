@@ -9,4 +9,5 @@ public interface FutsalService {
     boolean checkFutsalAvailability(int futsal_id);
 //    Futsal getFutsalByCode(String futsal_code);
     Futsal getFutsalById(int futsal_id);
+
 }

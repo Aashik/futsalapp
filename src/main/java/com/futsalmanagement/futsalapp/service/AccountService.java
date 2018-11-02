@@ -11,5 +11,6 @@ public interface AccountService {
     boolean checkDuplication(String email);
     boolean checkUsernameAvailability(String username);
     Account validatePassword(String username, String password);
+    List<Account> getAllAccountOfFutsal(int futsal_id);
 
 }

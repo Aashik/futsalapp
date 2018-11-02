@@ -28,4 +28,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	// https://mvnrepository.com/artifact/joda-time/joda-time
+	compile group: 'joda-time', name: 'joda-time', version: '2.3'
+
 }

@@ -35,6 +35,13 @@ public class Account {
         this.password = password;
     }
 
+    public Account(String userName, String fullName, String email, String contactNo) {
+        this.userName = userName;
+        this.fullName = fullName;
+        this.email = email;
+        this.contactNo = contactNo;
+    }
+
     public Futsal getFutsal() {
         return futsal;
     }
@@ -107,4 +114,8 @@ public class Account {
         this.password = password;
     }
 
+
+    public Account toEmployeeFormat() {
+        return new Account(this.userName, this.fullName,this.email,this.contactNo);
+    }
 }

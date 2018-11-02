@@ -22,8 +22,9 @@ public class FutsalServiceImpl implements FutsalService {
 
     @Override
     public Futsal getFutsalById(int futsal_id) {
-        Futsal futsal = futsalDao.getOne(futsal_id);
-        return futsal;
+        Futsal foundFutsal = futsalDao.findAll().stream()
+                .filter(futsal -> futsal.getFutsal_id() == futsal_id).findAny().orElse(null);
+        return foundFutsal;
     }
 
     @Override
