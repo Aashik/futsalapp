@@ -3,16 +3,14 @@ package com.futsalmanagement.futsalapp.controller;
 
 import com.futsalmanagement.futsalapp.dao.LoginDao;
 import com.futsalmanagement.futsalapp.entity.Account;
+import com.futsalmanagement.futsalapp.entity.Address;
 import com.futsalmanagement.futsalapp.entity.Futsal;
 import com.futsalmanagement.futsalapp.entity.Login;
 import com.futsalmanagement.futsalapp.model.GlobalResponse;
 import com.futsalmanagement.futsalapp.model.LoginRequest;
 import com.futsalmanagement.futsalapp.model.RequestObject;
 import com.futsalmanagement.futsalapp.model.Status;
-import com.futsalmanagement.futsalapp.service.AccountService;
-import com.futsalmanagement.futsalapp.service.FutsalService;
-import com.futsalmanagement.futsalapp.service.LoginService;
-import com.futsalmanagement.futsalapp.service.UserGroupService;
+import com.futsalmanagement.futsalapp.service.*;
 import com.futsalmanagement.futsalapp.utility.PasswordHash;
 import com.futsalmanagement.futsalapp.utility.TokenGeneration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,8 @@ public class AccountController {
     private UserGroupService userGroupService;
     @Autowired
     private FutsalService futsalService;
+    @Autowired
+    private AddressService addressService;
 
     //this api will be user only by the developers team to create the initial user for the futsal owner
     //after that the rest application management will be done by the owner and respective employee
@@ -62,14 +62,19 @@ public class AccountController {
                 toBeInsertedAccount.setUserGroup(userGroupService.getOwner());
                 //Account insertAcc = accountService.insert(toBeInsertedAccount);
                 toBeInsertedAccount.setStatus(true);
+
+                Address tobeinsertedaddress = requestObject.getAddress();
+                Address tosaveAddress = addressService.insert(tobeinsertedaddress);
+
                 Futsal futsal = new Futsal();
                 futsal.setFutsal_name(requestObject.getFutsalName());
-                futsal.setAddress(requestObject.getAddress());
+                futsal.setAddress(tosaveAddress);
                 futsal.setContact_no(requestObject.getContactNo());
                 futsal.setEmail(requestObject.getEmail());
                 futsal.setImage_url("test");
                 futsal.setMobile_no("test");
                 Futsal insFutsal = futsalService.insert(futsal);
+
                 if (insFutsal != null) {
                     toBeInsertedAccount.setFutsal(insFutsal);
                     Account insertAcc = accountService.insert(toBeInsertedAccount);
