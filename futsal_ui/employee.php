@@ -21,41 +21,13 @@
              </div>
            <!-- /.box-header -->
            <div class="box-body table-responsive no-padding">
-             <table class="table table-hover">
+             <table class="table table-hover" id="listEmployee">
                <tr>
-                 <th>ID</th>
-                 <th>User</th>
-                 <th>Date</th>
-                 <th>Status</th>
-                 <th>Reason</th>
-               </tr>
-               <tr>
-                 <td>183</td>
-                 <td>John Doe</td>
-                 <td>11-7-2014</td>
-                 <td><span class="label label-success">Approved</span></td>
-                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-               </tr>
-               <tr>
-                 <td>219</td>
-                 <td>Alexander Pierce</td>
-                 <td>11-7-2014</td>
-                 <td><span class="label label-warning">Pending</span></td>
-                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-               </tr>
-               <tr>
-                 <td>657</td>
-                 <td>Bob Doe</td>
-                 <td>11-7-2014</td>
-                 <td><span class="label label-primary">Approved</span></td>
-                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-               </tr>
-               <tr>
-                 <td>175</td>
-                 <td>Mike Doe</td>
-                 <td>11-7-2014</td>
-                 <td><span class="label label-danger">Denied</span></td>
-                 <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                 <th>Id</th>
+                 <th>Name</th>
+                 <th>Username</th>
+                 <th>Email</th>
+                 <th>Contact No</th>
                </tr>
              </table>
            </div>
@@ -136,39 +108,70 @@
    </section>
 
 <script>
+  var count = 1;
+  $(document).ready(function(){
+    debugger;
+    var futsal_id = $("#futsal_id").val() 
+    $.ajax({
+      url: 'http://localhost:8090/api/admin/getAllEmployee?futsal_id='+futsal_id,
+      type:'GET',
+      success: function(response){
+        debugger;
+        response.data.forEach(listData)
+      },
+      error: function(response){
+        debugger
+        alert("error")
+      }
+    })    
+  })
+
+  function listData(item)
+  {
+    var table = "<tr>" + 
+                  "<td>"+ count +"</td>" +
+                  "<td>"+ item.fullName +"</td>" +
+                  "<td>"+ item.userName +"</td>" +
+                  "<td>"+ item.email +"</td>" +
+                  "<td>"+ item.contactNo +"</td>" +
+                "</tr>";
+              
+    $("#listEmployee").append(table)
+    count++ 
+  }
 
   $("#submit").on('click',function(){
-   debugger;
-   var futsal_id = $("#futsal_id").val();
+   
+    var futsal_id = $("#futsal_id").val();
 
-   if(!$("#username").val()){
+    if(!$("#username").val()){
        alert("Username Empty")
        return false;
-   }
+    }
 
-   if(!$("#fullname").val()){
+    if(!$("#fullname").val()){
        alert("Full Name Empty")
        return false;
-   }
-   if(!$("#email").val()){
+    }
+    if(!$("#email").val()){
        alert("Email Empty")
        return false;
-   }
+    }
 
-   if(!$("#contactnumber").val()){
+    if(!$("#contactnumber").val()){
        alert("Contact Number Empty")
        return false;
-   }
+    }
 
-   if(!$("#password").val()){
+    if(!$("#password").val()){
        alert("Password Empty")
        return false;
-   }
+    }
 
     if(!$("#repassword").val()){
        alert("Retype Password Empty")
        return false;
-   }
+    }
   
    $.ajax({
          url: 'http://localhost:8090/api/admin/addEmployee',
@@ -180,13 +183,13 @@
             "email":$("#email").val(),
             "contactNo":$("#contactnumber").val(),
             "password":$("#password").val(),
-            "futsal_id":540
+            "futsal_id":$("#futsal_id").val()
          }),
          contentType: 'application/json; charset=utf-8',
          success: function(response){
-           debugger;
+           
              if(response.status === "SUCCESS"){
-               alert("Ground Successfully added")
+               alert("Employee Successfully added")
                window.location.replace('http://localhost/futsal_ui/employee.php')
              }else{
                alert(response.messsage)
@@ -198,4 +201,5 @@
      })
   })
 </script>
+
 <?php include('includes/footer.php'); ?>

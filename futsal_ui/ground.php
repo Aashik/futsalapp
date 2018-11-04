@@ -21,41 +21,14 @@
               </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
+              <table class="table table-hover"  id="listGround">
                 <tr>
                   <th>ID</th>
-                  <th>User</th>
-                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Opening Hour</th>
+                  <th>Closing Hour</th>
+                  <th>Price (per hr)</th>
                   <th>Status</th>
-                  <th>Reason</th>
-                </tr>
-                <tr>
-                  <td>183</td>
-                  <td>John Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                 </tr>
               </table>
             </div>
@@ -140,6 +113,37 @@
     </section>
 
 <script>
+   var count = 1;
+   $(document).ready(function(){
+    var futsal_id = $("#futsal_id").val() 
+    $.ajax({
+      url: 'http://localhost:8090/api/getGroundList?futsal_id='+futsal_id,
+      type:'GET',
+      success: function(response){
+        debugger;
+        response.data.forEach(listData)
+      },
+      error: function(response){
+        debugger
+        alert("error")
+      }
+    })    
+   })
+
+  function listData(item)
+  {
+    var table = "<tr>" + 
+                  "<td>"+ count +"</td>" +
+                  "<td>"+ item.ground_name +"</td>" +
+                  "<td>"+ item.opening_hour +"</td>" +
+                  "<td>"+ item.closing_hour +"</td>" +
+                  "<td>"+ item.unit_hour_price +"</td>" +
+                  "<td>"+ item.status +"</td>" +
+                "</tr>";
+              
+    $("#listGround").append(table)
+    count++ 
+  }
 
    $("#submit").on('click',function(){
     debugger;
