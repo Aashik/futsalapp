@@ -115,11 +115,12 @@ public class BookingController {
     }
 
 
-    @RequestMapping(value = "api/ground/getAllBooking", method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> getAllBooking(@RequestBody Map<Object,Object> request){
-        int futsal_id = Integer.parseInt(request.get("futsal_id").toString());
-        int ground_id = Integer.parseInt(request.get("ground_id").toString());
-        List<Booking> bookingList = bookingService.getAllBooking(futsal_id,ground_id);
+    @RequestMapping(value = "api/ground/getAllBooking", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getAllBooking(@RequestParam("futsal_id") int futsal_id){
+        //int futsal_id = Integer.parseInt(request.get("futsal_id").toString());
+        //int ground_id = Integer.parseInt(request.get("ground_id").toString());
+
+        List<Booking> bookingList = bookingService.getAllBooking(futsal_id);
         List<Booking> bookingListInGeneric = bookingList.stream().map(booking -> booking.genericFormat()).collect(Collectors.toList());
         if (bookingList !=  null && bookingList.size() > 0 ){
             GlobalResponse response = new GlobalResponse(Status.SUCCESS, "all the booking retrieved", bookingListInGeneric);

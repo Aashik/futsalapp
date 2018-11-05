@@ -13,7 +13,7 @@ public interface BookingService {
     boolean ifBookTimeAvailable(BookingRequest booking);
     String generateBookingCode(BookingRequest booking);
     Booking findBookingById(String booking_code, int booking_id);
-    List<Booking> getAllBooking(int futsal_id, int ground_id);
+    List<Booking> getAllBooking(int futsal_id);
 
 
 

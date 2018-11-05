@@ -4,6 +4,7 @@ import com.futsalmanagement.futsalapp.entity.Address;
 
 public class RequestObject {
 
+    private int account_id;
     private String fullName;
     private String userName;
     private String email;
@@ -12,6 +13,7 @@ public class RequestObject {
     private String futsalName;
     private Address address;
     private int futsal_id;
+    private String new_userName;
 
     public RequestObject(String fullName, String userName, String email, String contactNo, String password, String futsalName, Address address) {
         this.fullName = fullName;
@@ -24,6 +26,14 @@ public class RequestObject {
     }
 
     public RequestObject() {
+    }
+
+    public String getNew_userName() {
+        return new_userName;
+    }
+
+    public void setNew_userName(String new_userName) {
+        this.new_userName = new_userName;
     }
 
     public int getFutsal_id() {

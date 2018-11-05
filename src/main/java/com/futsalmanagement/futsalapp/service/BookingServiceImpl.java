@@ -79,15 +79,13 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public List<Booking> getAllBooking(int futsal_id, int ground_id) {
-        List<Booking> bookingListofAFutstal = bookingDao.findAll().stream().filter(booking -> futsal_id == booking.getBookFutsal().getFutsal_id() &&
-                                             ground_id == booking.getBookGround().getGround_id()).collect(Collectors.toList());
+    public List<Booking> getAllBooking(int futsal_id) {
+        List<Booking> bookingListofAFutstal = bookingDao.findAll().stream().filter(booking -> futsal_id == booking.getBookFutsal().getFutsal_id()).collect(Collectors.toList());
         return bookingListofAFutstal;
     }
 
     private Timestamp converToTimeStamp(String bookingDate, String bookingTime) {
         try {
-
             String bookingTimeConcat = bookingDate.trim() + " " + bookingTime.trim();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date booktime = formatter.parse(bookingTimeConcat);

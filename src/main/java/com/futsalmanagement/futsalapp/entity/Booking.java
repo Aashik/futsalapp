@@ -37,7 +37,7 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int booking_id, @Size(max = 50) String booking_code, @Size(max = 50) String full_name, @Size(max = 20) String contact_num, @Size(max = 10) String booking_date, @Size(max = 10) String booking_time, double booking_duration, String booking_status) {
+    public Booking(int booking_id, @Size(max = 50) String booking_code, @Size(max = 50) String full_name, @Size(max = 20) String contact_num, @Size(max = 10) String booking_date, @Size(max = 10) String booking_time, double booking_duration, String booking_status, Ground book_ground) {
         this.booking_id = booking_id;
         this.booking_code = booking_code;
         this.full_name = full_name;
@@ -46,11 +46,12 @@ public class Booking {
         this.booking_time = booking_time;
         this.booking_duration = booking_duration;
         this.booking_status = booking_status;
+        this.bookGround = book_ground;
     }
 
     public Booking genericFormat(){
         return new Booking(this.booking_id, this.booking_code, this.full_name, this.contact_num,
-                this.booking_date,this.booking_time, this.booking_duration, this.booking_status);
+                this.booking_date,this.booking_time, this.booking_duration, this.booking_status,this.bookGround);
     }
 
     public int getBooking_id() {

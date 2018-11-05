@@ -59,4 +59,19 @@ public class AccountServiceImpl implements AccountService {
         return foundAccountlist.stream()
                 .map(account -> account.toEmployeeFormat()).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAccount(int account_id) {
+        accountDao.deleteById(account_id);
+    }
+
+
+    @Override
+    public Account getAccountByUsername(String username) {
+        Account foundAccount = accountDao.findAll().stream()
+                .filter(account -> account.getUserName().equals(username)).findAny().orElse(null);
+        return foundAccount;
+    }
+
+
 }

@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.Request;
+
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -193,6 +195,32 @@ public class AccountController {
         GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid futsal id. Try again" , null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "api/admin/deleteEmployee", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> deleteEmployee(@RequestParam("account_id") int account_id,
+                                                         @RequestParam("user_name") String user_name){
+        if(accountService.checkUsernameAvailability(user_name)){
+            accountService.deleteAccount(account_id);
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "account deleted successfully", account_id);
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid username. Please check again", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
+//    @RequestMapping(value = "api/admin/updateEmployee" , method = RequestMethod.POST)
+//    public ResponseEntity<GlobalResponse> updateEmployee(@RequestBody RequestObject object){
+//
+//        String username = object.getUserName();
+//
+//        Account toUpdateAccount = accountService.getAccountByUsername(username);
+//        if (toUpdateAccount != null){
+//            if (object.getNew_userName() != null)toUpdateAccount.setUserName(object.getNew_userName());
+//            toUpdateAccount.setEmail(object.getEmail());
+//
+//        }
+//
+//    }
 
 
 }
