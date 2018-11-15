@@ -1,19 +1,24 @@
 package com.futsalmanagement.futsalapp.controller;
 
 import com.futsalmanagement.futsalapp.entity.Booking;
+import com.futsalmanagement.futsalapp.entity.Ground;
 import com.futsalmanagement.futsalapp.model.BookingRequest;
 import com.futsalmanagement.futsalapp.model.GlobalResponse;
 import com.futsalmanagement.futsalapp.model.Status;
+import com.futsalmanagement.futsalapp.model.TimeFrame;
 import com.futsalmanagement.futsalapp.service.BookingService;
 import com.futsalmanagement.futsalapp.service.FutsalService;
 import com.futsalmanagement.futsalapp.service.GroundService;
 import com.sun.jmx.snmp.SnmpUnknownAccContrModelException;
+import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -129,4 +134,33 @@ public class BookingController {
         GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "no bookings available", bookingList);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "api/searchAvailableBooking" , method = RequestMethod.POST)
+    public ResponseEntity<GlobalResponse> fetchAvailableBooking(@RequestBody Map<String, Object> requestObject){
+
+        List<Map<String, Object>> booktimeforAllGround = new ArrayList<>();
+        int futsal_id = Integer.parseInt(requestObject.get("futsal_id").toString());
+        String to_book_date = requestObject.get("to_book_date").toString();
+        for(Ground ground : groundService.getGoundListByFutsal(futsal_id)){
+            List<TimeFrame> availablebooktime = bookingService.getAvailableTimeToBook(futsal_id,to_book_date,ground.getGround_id());
+            Map<String,Object> booktimeresponse = new HashMap<>();
+            booktimeresponse.put("ground ", ground.getGround_name());
+            booktimeresponse.put("booking_date", to_book_date);
+            booktimeresponse.put("available_time " , availablebooktime);
+            booktimeforAllGround.add(booktimeresponse);
+        }
+        if(booktimeforAllGround.size() > 0 && !booktimeforAllGround.isEmpty()){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "Available booking time" , booktimeforAllGround);
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Sorry invalid request" , null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+
+
+
+
+    }
+
+
 }

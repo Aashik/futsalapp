@@ -3,16 +3,16 @@ package com.futsalmanagement.futsalapp.service;
 import com.futsalmanagement.futsalapp.dao.BookingDao;
 import com.futsalmanagement.futsalapp.entity.Booking;
 import com.futsalmanagement.futsalapp.model.BookingRequest;
+import com.futsalmanagement.futsalapp.model.TimeFrame;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +22,8 @@ public class BookingServiceImpl implements BookingService {
     private BookingDao bookingDao;
     @Autowired
     private FutsalService futsalService;
+    @Autowired
+    private GroundService groundService;
 
     @Override
     public Booking insertBooking(Booking book) {
@@ -77,7 +79,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-
     @Override
     public List<Booking> getAllBooking(int futsal_id) {
         List<Booking> bookingListofAFutstal = bookingDao.findAll().stream().filter(booking -> futsal_id == booking.getBookFutsal().getFutsal_id()).collect(Collectors.toList());
@@ -105,10 +106,58 @@ public class BookingServiceImpl implements BookingService {
 //        String futsalname = booking.getBookFutsal().getFutsal_name();
         String[] tokens = futsalname.split(" ");
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i< tokens.length ; i++){
+        for (int i = 0; i < tokens.length; i++) {
             sb.append(tokens[i].toUpperCase().charAt(0));
         }
         String initials = sb.toString();
-        return  initials + "-" + temp;
+        return initials + "-" + temp;
     }
+
+
+    @Override
+    public List<TimeFrame> getAvailableTimeToBook(int futsal_id, String to_book_date, int ground_id) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        List<Booking> bookedTimeForTheDay = bookingDao.findAll().stream()
+                .filter(booking -> futsal_id == booking.getBookFutsal().getFutsal_id() &&
+                        to_book_date.equals(booking.getBooking_date()) && ground_id == booking.getBookGround().getGround_id()).collect(Collectors.toList());
+        Collections.sort(bookedTimeForTheDay, new Comparator<Booking>() {
+            @Override
+            public int compare(Booking b1, Booking b2) {
+                return converToTimeStamp(b1.getBooking_date(), b1.getBooking_time()).compareTo(converToTimeStamp(b2.getBooking_date(), b2.getBooking_time()));
+            }
+        });
+        List<TimeFrame> availableBookTimes = new ArrayList<>();
+        Timestamp groundopeningtime = converToTimeStamp(to_book_date, groundService.getGroundById(futsal_id, ground_id).getOpening_hour());
+        Timestamp afterHalfHour = new Timestamp(groundopeningtime.getTime() + (30 * 60 * 1000));
+        Timestamp starttime = groundopeningtime;
+
+        for (Booking b : bookedTimeForTheDay) {
+            Timestamp booktime = converToTimeStamp(b.getBooking_date(), b.getBooking_time());
+            Timestamp bookendtime = new Timestamp(booktime.getTime() + (long)(b.getBooking_duration() * 60 * 60 * 1000));
+            while (afterHalfHour.before(booktime)) {
+                afterHalfHour = new Timestamp(afterHalfHour.getTime() + (30 * 60 * 1000));
+            }
+            TimeFrame timeFrame = new TimeFrame();
+            Date availstarttime = new Date(starttime.getTime());
+            Date availendtime = new Date(afterHalfHour.getTime());
+
+            timeFrame.setStart_time(sdf.format(availstarttime));
+            timeFrame.setEnd_time(sdf.format(availendtime));
+            availableBookTimes.add(timeFrame);
+            starttime = bookendtime;
+            afterHalfHour = new Timestamp(bookendtime.getTime() + (30 * 60 * 1000));
+        }
+
+        Date laststarttime = new Date(starttime.getTime());
+        Date lastendtime = new Date(converToTimeStamp(to_book_date, groundService.getGroundById(futsal_id,ground_id).getClosing_hour()).getTime());
+        if ((lastendtime.getTime() - laststarttime.getTime()) >= (1*60*60*1000)){
+            TimeFrame lasttimeframe = new TimeFrame();
+            lasttimeframe.setStart_time(sdf.format(laststarttime));
+            lasttimeframe.setEnd_time(sdf.format(lastendtime));
+            availableBookTimes.add(lasttimeframe);
+        }
+        return availableBookTimes;
+    }
+
+
 }
