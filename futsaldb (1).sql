@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2018 at 04:20 AM
+-- Generation Time: Nov 16, 2018 at 05:30 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -46,8 +46,10 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id`, `contact_no`, `email`, `full_name`, `password`, `status`, `user_name`, `user_group_id`, `futsal_id`) VALUES
 (16, '9849581817', 'Sagar@gmail.com', 'Sagar Bhandari', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 1, 'sagar', 1, 531),
-(17, '9849581817', 'surya@gmail.com', 'surya kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 0, 'surya', 2, 531),
-(18, '9849581817', 'haria@gmail.com', 'hari kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 0, 'hari', 2, 531);
+(17, '9849581817', 'surya@gmail.com', 'surya kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 1, 'surya', 2, 531),
+(18, '9849581817', 'haria@gmail.com', 'hari kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 0, 'hari', 2, 531),
+(20, '9849581817', 'nikunj@gmail.com', 'Nikunj Ghimire', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 1, 'nikunjey', 1, 536),
+(21, '9849581817', 'ramesh@gmail.com', 'Ramesh kc', 'e1d0e45a6b0595f14fda5f32b208edbfe379b4fdc4b6f97f440507989a09d44cbf65015601055ae538b9527e668b21ea000c1e94fc6810385dc71fdd34d16b8e', 1, 'Ramesh', 2, 531);
 
 --
 -- Triggers `account`
@@ -94,7 +96,9 @@ INSERT INTO `account_operation_jn` (`id`, `user_id`, `username`, `operation`, `d
 (14, 16, 'sagar', 'INS', '2018-10-09 13:31:55', 'test'),
 (15, 17, 'surya', 'INS', '2018-10-09 15:10:29', 'test'),
 (16, 18, 'hari', 'INS', '2018-10-11 17:24:13', 'test'),
-(17, 19, 'suryaaaaaa', 'INS', '2018-10-12 15:12:09', 'test');
+(17, 19, 'suryaaaaaa', 'INS', '2018-10-12 15:12:09', 'test'),
+(18, 20, 'nikunjey', 'INS', '2018-11-02 05:29:20', 'test'),
+(19, 21, 'Ramesh', 'INS', '2018-11-02 05:49:48', 'test');
 
 -- --------------------------------------------------------
 
@@ -122,7 +126,43 @@ INSERT INTO `address` (`address_id`, `country`, `city`, `state_district`, `stree
 (526, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754),
 (528, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754),
 (530, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754),
-(532, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754);
+(532, 'Nepal', 'Tokha', 'Kathmandu', 'basindhara', 5144754),
+(535, 'Nepal', 'Gongabu', 'Kathmandu', 'gairidhara', 5144754);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bill`
+--
+
+CREATE TABLE `bill` (
+  `bill_id` int(11) NOT NULL,
+  `billing_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `book_person_name` varchar(255) DEFAULT NULL,
+  `play_duration` double NOT NULL,
+  `play_start_time` varchar(255) DEFAULT NULL,
+  `total_amount` decimal(19,2) DEFAULT NULL,
+  `futsal_id` int(11) DEFAULT NULL,
+  `ground_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bill`
+--
+
+INSERT INTO `bill` (`bill_id`, `billing_date`, `book_person_name`, `play_duration`, `play_start_time`, `total_amount`, `futsal_id`, `ground_id`) VALUES
+(1, '2018-11-15 05:12:17', 'John Doe', 2, '2018-11-15 14:30:00', '1155.00', 536, 537),
+(2, '2018-11-15 05:12:17', 'John Doe', 2, '2018-11-15 16:30:00', '1110.00', 536, 537),
+(3, '2018-11-15 05:13:32', 'John Doe', 2, '2018-11-15 16:30:00', '1110.00', 536, 537),
+(4, '2018-11-15 05:26:01', 'John Doe', 2, '2018-11-15 18:30:00', '1110.00', 536, 537),
+(5, '2018-11-15 05:29:27', 'John Doe', 2, '2018-11-15 18:00:00', '1120.00', 536, 537),
+(6, '2018-11-15 05:35:07', 'John Doe', 2, '2018-11-15 19:00:00', '1120.00', 536, 537),
+(7, '2018-11-15 05:41:30', 'John Doe', 2, '2018-11-15 19:00:00', '1120.00', 536, 537),
+(8, '2018-11-15 05:45:04', 'John Doe', 2, '2018-11-15 19:00:00', '1120.00', 536, 537),
+(9, '2018-11-15 05:52:16', 'Jony doye', 2, '2018-11-15 19:00:00', '1120.00', 536, 537),
+(10, '2018-11-15 05:57:21', 'Jonyy doye', 2, '2018-11-15 19:00:00', '1120.00', 536, 537),
+(11, '2018-11-15 06:00:49', 'Jonyy doye', 2, '2018-11-15 20:00:00', '-8880.00', 536, 537),
+(12, '2018-11-15 06:05:10', 'Jonyy doye', 2, '2018-11-15 20:00:00', '1020.00', 536, 537);
 
 -- --------------------------------------------------------
 
@@ -152,7 +192,75 @@ INSERT INTO `booking` (`booking_id`, `booking_code`, `booking_date`, `booking_du
 (4, 'CF-75', '2018-10-29', 1.5, 'PENDING', '10:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
 (8, 'CF-8946', '2018-10-30', 1.5, 'PENDING', '10:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
 (10, 'CF-7353', '2018-10-31', 1.5, 'CANCELLED', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
-(11, 'CF-4897', '2018-11-01', 2, 'PENDING', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari');
+(11, 'CF-4897', '2018-11-01', 2, 'PENDING', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
+(12, 'AF-9924', '2018-11-14', 2, 'PENDING', '10:00:00', '9849582827', 536, 537, 'Mansubh Bhandari'),
+(13, 'AF-9814', '2018-11-14', 1.5, 'CONFIRMED', '15:00:00', '98495821231', 536, 537, 'Sagar Pandey'),
+(14, 'AF-519', '2018-11-14', 1, 'PENDING', '11:00:00', '9849582123', 536, 538, 'Ram Sharma'),
+(15, 'AF-9547', '2018-11-14', 2, 'PENDING', '17:00:00', '9849582123', 536, 538, 'Ram Sharma');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discount`
+--
+
+CREATE TABLE `discount` (
+  `id` int(11) NOT NULL,
+  `discount_margin` int(11) NOT NULL,
+  `discount_weekdays` tinyblob,
+  `futsal_id` int(11) DEFAULT NULL,
+  `ground_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discount`
+--
+
+INSERT INTO `discount` (`id`, `discount_margin`, `discount_weekdays`, `futsal_id`, `ground_id`) VALUES
+(1, 10, 0xaced0005757200025b494dba602676eab2a502000078700000000400000002000000030000000400000005, 536, 537);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expense`
+--
+
+CREATE TABLE `expense` (
+  `expense_id` int(11) NOT NULL,
+  `particular` varchar(255) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` double NOT NULL,
+  `bill_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `expense`
+--
+
+INSERT INTO `expense` (`expense_id`, `particular`, `quantity`, `unit_price`, `bill_id`) VALUES
+(1, 'Mineral water', 4, 20, 1),
+(2, 'Surya Cigerrate', 5, 15, 1),
+(3, 'Mineral water', 4, 20, 2),
+(4, 'Surya Cigerrate', 2, 15, 2),
+(5, 'Mineral water', 4, 20, 3),
+(6, 'Surya Cigerrate', 2, 15, 3),
+(7, 'Mineral water', 4, 20, 4),
+(8, 'Surya Cigerrate', 2, 15, 4),
+(9, 'Mineral water', 4, 20, 5),
+(10, 'Wai Wai Noodles', 2, 20, 5),
+(11, 'Mineral water', 4, 20, 6),
+(12, 'Wai Wai Noodles', 2, 20, 6),
+(13, 'Mineral water', 4, 20, 7),
+(14, 'Wai Wai Noodles', 2, 20, 7),
+(15, 'Mineral water', 4, 20, 8),
+(16, 'Wai Wai Noodles', 2, 20, 8),
+(17, 'Mineral water', 4, 20, 9),
+(18, 'Wai Wai Noodles', 2, 20, 9),
+(19, 'Mineral water', 4, 20, 10),
+(20, 'Wai Wai Noodles', 2, 20, 10),
+(21, 'Mineral water', 4, 20, 11),
+(23, 'Mineral water', 4, 20, 12),
+(24, 'Wai Wai Noodles', 2, 20, 12);
 
 -- --------------------------------------------------------
 
@@ -176,7 +284,8 @@ CREATE TABLE `futsal` (
 
 INSERT INTO `futsal` (`futsal_id`, `contact_no`, `email`, `image_url`, `mobile_no`, `address_id`, `futsal_name`) VALUES
 (1001, 'test', 'test', 'test', 'test', 522, 'test'),
-(531, '9849581817', 'chabel_futsal@gmail.com', 'http://testurl', '9845652312', 532, 'chabel Futsal');
+(531, '9849581817', 'chabel_futsal@gmail.com', 'http://testurl', '9845652312', 532, 'chabel Futsal'),
+(536, '01-423507', 'abc_futsal@gmail.com', 'http://testurl', '9845652312', 535, 'Abc Futsal');
 
 --
 -- Triggers `futsal`
@@ -219,7 +328,8 @@ INSERT INTO `futsal_operation_jn` (`id`, `futsal_id`, `futsal_name`, `operation`
 (11, 1001, 'test', 'INS', '2018-10-09 12:37:29'),
 (12, 525, 'Basundhara Futsal', 'INS', '2018-10-09 12:38:03'),
 (13, 529, 'Basundhara Futsal', 'INS', '2018-10-09 12:43:51'),
-(14, 531, 'Basundhara Futsal', 'INS', '2018-10-09 13:31:55');
+(14, 531, 'Basundhara Futsal', 'INS', '2018-10-09 13:31:55'),
+(15, 536, 'Basundhara Futsal', 'INS', '2018-11-02 05:29:20');
 
 -- --------------------------------------------------------
 
@@ -243,7 +353,9 @@ CREATE TABLE `ground` (
 --
 
 INSERT INTO `ground` (`ground_id`, `closing_hour`, `ground_name`, `image`, `opening_hour`, `unit_hour_price`, `futsal_id`, `status`) VALUES
-(533, '8:00 pm', 'Alpha', 'http://testurl', '10:00 am', '500.00', 531, 'ACTIVE');
+(533, '8:00 pm', 'Alpha', 'http://testurl', '10:00 am', '500.00', 531, 'ACTIVE'),
+(537, '20:00:00', 'Alpha', 'http://testurl', '07:00:00', '500.00', 536, 'ACTIVE'),
+(538, '22:00:00', 'Beta', 'http://testurl', '08:00:00', '500.00', 536, 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -260,8 +372,8 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(534),
-(534);
+(539),
+(539);
 
 -- --------------------------------------------------------
 
@@ -293,7 +405,8 @@ INSERT INTO `login` (`login_id`, `login_time`, `login_token`, `login_token_statu
 (8, NULL, '85992c42bad5c8e5b02006575822a6f3', 1, 'testuser', 6),
 (9, NULL, '0d133a840fd0d7a181b60b9d04450a04', 1, 'sagar', 16),
 (10, NULL, 'b3827ae0ae884cdb7d136ee5f0424f80', 1, 'surya', 17),
-(11, NULL, '551481c606b11957b32827aef34edbf4', 1, 'surya', 17);
+(11, NULL, '551481c606b11957b32827aef34edbf4', 1, 'surya', 17),
+(12, NULL, '342da620d30589942e6aa6b545a65f27', 1, 'nikunjey', 20);
 
 -- --------------------------------------------------------
 
@@ -363,12 +476,35 @@ ALTER TABLE `address`
   ADD PRIMARY KEY (`address_id`);
 
 --
+-- Indexes for table `bill`
+--
+ALTER TABLE `bill`
+  ADD PRIMARY KEY (`bill_id`),
+  ADD KEY `FKri33j2e4sat10cvced3ptepno` (`futsal_id`),
+  ADD KEY `FKiy2wkkvqypgq1qfhsp9yjhkfy` (`ground_id`);
+
+--
 -- Indexes for table `booking`
 --
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`booking_id`),
   ADD KEY `FKp6hoe2xhtk3syg671kafsijd` (`futsal_id`),
   ADD KEY `FK9gygg2455povas0jvhvyj3cef` (`ground_id`);
+
+--
+-- Indexes for table `discount`
+--
+ALTER TABLE `discount`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKmx6k9dei4q48xckye9cyg18wh` (`futsal_id`),
+  ADD KEY `FK3trhn3a3ubx4ufk1dys6n73cp` (`ground_id`);
+
+--
+-- Indexes for table `expense`
+--
+ALTER TABLE `expense`
+  ADD PRIMARY KEY (`expense_id`),
+  ADD KEY `FKa6o36sk9smgorqwww3ey59cli` (`bill_id`);
 
 --
 -- Indexes for table `futsal`
@@ -417,31 +553,49 @@ ALTER TABLE `user_menu`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `account_operation_jn`
 --
 ALTER TABLE `account_operation_jn`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `bill`
+--
+ALTER TABLE `bill`
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `discount`
+--
+ALTER TABLE `discount`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `expense`
+--
+ALTER TABLE `expense`
+  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `futsal_operation_jn`
 --
 ALTER TABLE `futsal_operation_jn`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_group`

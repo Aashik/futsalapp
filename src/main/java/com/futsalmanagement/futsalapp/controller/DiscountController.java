@@ -50,6 +50,15 @@ public class DiscountController {
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "api/getallAvailableDiscount" , method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getAllAvailableDiscount(@RequestParam("futsal_id") int futsal_id){
+
+        //task 1
+        //create a get api to get all the discount object corrresponding to requested futsal_id
+        return null;
+
+    }
+
 
 
 }

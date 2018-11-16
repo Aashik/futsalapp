@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
     //task1
-    //create a api for getting all the bills of a particular futsal for a requested date
+    //post api for getting dailysales
+    //api should be able to get all the bills generated for a particular day
+
 
 }
