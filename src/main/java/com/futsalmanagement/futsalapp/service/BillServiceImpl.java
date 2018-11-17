@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -36,10 +34,11 @@ public class BillServiceImpl implements BillService {
 
 
     @Override
-    public BigDecimal calculateTotalPrice(BillRequest billRequest) {
+    public Map<String,BigDecimal> calculateTotalPrice(BillRequest billRequest) {
         double unitPrice = 0.0;
         int futsal_id = billRequest.getFutsal_id();
         int ground_id = billRequest.getGround_id();
+        Map pricemap = new HashMap();
         unitPrice = groundService.getGroundById(futsal_id,ground_id).getUnit_hour_price().doubleValue();
 
         if (discountService.isDiscountAvailable(futsal_id,ground_id, billRequest.getPlay_start_time())){
@@ -56,6 +55,8 @@ public class BillServiceImpl implements BillService {
         }
 
         double playcost = billRequest.getPlay_duration() * unitPrice ;
+        pricemap.put("play_cost" , new BigDecimal(playcost));
+
         double extraexpense = 0.0 ;
 
         for (Expense expense : billRequest.getExpenseList()){
@@ -63,7 +64,8 @@ public class BillServiceImpl implements BillService {
         }
 
         double totalcost = playcost + extraexpense;
-        return new BigDecimal(totalcost);
+        pricemap.put("additional_cost", new BigDecimal(extraexpense));
+        return pricemap;
 
     }
 
@@ -88,7 +90,8 @@ public class BillServiceImpl implements BillService {
                 salesReport.setGround_name(bill.getGround().getGround_name());
                 salesReport.setDate_time(bill.getBilling_date().toString());
                 salesReport.setPlay_duration(bill.getPlay_duration());
-                salesReport.setTotal_cost(bill.getTotal_amount());
+                salesReport.setPlay_cost(bill.getPlay_amount());
+                salesReport.setAdditional_cost(bill.getAddition_expense_amount());
                 saleslist.add(salesReport);
             }
             }
@@ -103,7 +106,7 @@ public class BillServiceImpl implements BillService {
     public BigDecimal calculateTotalDailySalesAmount(List<SalesReport> salesReportList) {
         double totalAmount = 0.0;
         for (SalesReport sales : salesReportList){
-            totalAmount = totalAmount + sales.getTotal_cost().doubleValue();
+            totalAmount = totalAmount + sales.getPlay_cost().doubleValue() + sales.getAdditional_cost().doubleValue();
         }
         return new BigDecimal(totalAmount);
     }

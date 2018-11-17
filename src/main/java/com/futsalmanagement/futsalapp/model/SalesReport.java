@@ -8,18 +8,35 @@ public class SalesReport {
     private String person_name;
     private String date_time;
     private double play_duration;
-    private BigDecimal total_cost;
+    private BigDecimal play_cost;
+    private BigDecimal additional_cost;
 
 
-    public SalesReport(String ground_name, String person_name, String date_time, double play_duration, BigDecimal total_cost) {
+    public SalesReport(String ground_name, String person_name, String date_time, double play_duration, BigDecimal play_cost) {
         this.ground_name = ground_name;
         this.person_name = person_name;
         this.date_time = date_time;
         this.play_duration = play_duration;
-        this.total_cost = total_cost;
+        this.play_cost = play_cost;
     }
 
     public SalesReport() {
+    }
+
+    public BigDecimal getPlay_cost() {
+        return play_cost;
+    }
+
+    public void setPlay_cost(BigDecimal play_cost) {
+        this.play_cost = play_cost;
+    }
+
+    public BigDecimal getAdditional_cost() {
+        return additional_cost;
+    }
+
+    public void setAdditional_cost(BigDecimal additional_cost) {
+        this.additional_cost = additional_cost;
     }
 
     public String getGround_name() {
@@ -52,14 +69,6 @@ public class SalesReport {
 
     public void setPlay_duration(double play_duration) {
         this.play_duration = play_duration;
-    }
-
-    public BigDecimal getTotal_cost() {
-        return total_cost;
-    }
-
-    public void setTotal_cost(BigDecimal total_cost) {
-        this.total_cost = total_cost;
     }
 
     @Override

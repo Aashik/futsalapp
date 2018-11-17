@@ -20,18 +20,19 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "ground_id")
     private Ground ground;
-    private BigDecimal total_amount;
+    private BigDecimal play_amount;
+    private BigDecimal addition_expense_amount;
     @Column(name = "billing_date", insertable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date billing_date;
 
-    public Bill(String play_start_time, double play_duration, String book_person_name, Futsal futsal, Ground ground, BigDecimal total_amount, Date billing_date) {
+    public Bill(String play_start_time, double play_duration, String book_person_name, Futsal futsal, Ground ground, BigDecimal play_amount, Date billing_date) {
         this.play_start_time = play_start_time;
         this.play_duration = play_duration;
         this.book_person_name = book_person_name;
         this.futsal = futsal;
         this.ground = ground;
-        this.total_amount = total_amount;
+        this.play_amount = play_amount;
         this.billing_date = billing_date;
     }
 
@@ -86,12 +87,20 @@ public class Bill {
         this.ground = ground;
     }
 
-    public BigDecimal getTotal_amount() {
-        return total_amount;
+    public BigDecimal getPlay_amount() {
+        return play_amount;
     }
 
-    public void setTotal_amount(BigDecimal total_amount) {
-        this.total_amount = total_amount;
+    public void setPlay_amount(BigDecimal play_amount) {
+        this.play_amount = play_amount;
+    }
+
+    public BigDecimal getAddition_expense_amount() {
+        return addition_expense_amount;
+    }
+
+    public void setAddition_expense_amount(BigDecimal addition_expense_amount) {
+        this.addition_expense_amount = addition_expense_amount;
     }
 
     public Date getBilling_date() {
