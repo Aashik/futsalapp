@@ -9,8 +9,6 @@ import com.futsalmanagement.futsalapp.model.TimeFrame;
 import com.futsalmanagement.futsalapp.service.BookingService;
 import com.futsalmanagement.futsalapp.service.FutsalService;
 import com.futsalmanagement.futsalapp.service.GroundService;
-import com.sun.jmx.snmp.SnmpUnknownAccContrModelException;
-import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

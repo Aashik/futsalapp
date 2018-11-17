@@ -1,6 +1,5 @@
 package com.futsalmanagement.futsalapp.controller;
 
-
 import com.futsalmanagement.futsalapp.dao.LoginDao;
 import com.futsalmanagement.futsalapp.entity.Account;
 import com.futsalmanagement.futsalapp.entity.Address;
@@ -17,13 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.Request;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @RestController
 @CrossOrigin
@@ -115,7 +112,7 @@ public class AccountController {
 
                 Login loginInstance = loginService.insert(login);
 
-                if (loginInstance != null) {
+                if (loginInstance!= null) {
                     Map<String, Object> loginresponse = new HashMap<>();
                     loginresponse.put("login_user_group", userGroup);
                     loginresponse.put("futsal_id", validateUser.getFutsal().getFutsal_id());

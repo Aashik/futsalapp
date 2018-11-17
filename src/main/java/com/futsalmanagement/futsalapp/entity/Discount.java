@@ -27,6 +27,11 @@ public class Discount {
         this.ground = ground;
     }
 
+    public Discount(int discount_margin , int[] discount_weekdays ){
+        this.discount_margin = discount_margin;
+        this.discount_weekdays = discount_weekdays;
+    }
+
     public Discount() {
     }
 
@@ -68,6 +73,10 @@ public class Discount {
 
     public void setGround(Ground ground) {
         this.ground = ground;
+    }
+
+    public Discount toAnotherFormat(){
+        return new Discount(this.discount_margin, this.discount_weekdays);
     }
 
     @Override

@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @CrossOrigin
 public class DiscountController {
@@ -53,10 +56,14 @@ public class DiscountController {
     @RequestMapping(value = "api/getallAvailableDiscount" , method = RequestMethod.GET)
     public ResponseEntity<GlobalResponse> getAllAvailableDiscount(@RequestParam("futsal_id") int futsal_id){
 
-        //task 1
-        //create a get api to get all the discount object corrresponding to requested futsal_id
-        return null;
-
+        List<Discount> discountList = discountService.getAllDiscountForAFutsal(futsal_id);
+        List<Discount> anotherformatdiscountlist = discountList.stream().map(discount -> discount.toAnotherFormat()).collect(Collectors.toList());
+        if (discountList != null){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "all discounts for specified futsal", anotherformatdiscountlist);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "no discount available for the futsal", null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 

@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DiscountServiceImpl implements DiscountService {
@@ -63,5 +64,15 @@ public class DiscountServiceImpl implements DiscountService {
                 .findAny()
                 .orElse(null);
         return foundDiscount;
+    }
+
+    @Override
+    public List<Discount> getAllDiscountForAFutsal(int futsal_id) {
+        List<Discount> discountsForAFutsal = discountDao.findAll().stream()
+                .filter(discount -> futsal_id == discount.getFutsal().getFutsal_id()).collect(Collectors.toList());
+        if (discountsForAFutsal.size()> 0){
+            return discountsForAFutsal;
+        }
+        return null;
     }
 }

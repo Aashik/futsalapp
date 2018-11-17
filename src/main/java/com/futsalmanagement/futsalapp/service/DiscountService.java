@@ -10,4 +10,5 @@ public interface DiscountService {
      List<Discount> getAllDiscount();
      boolean isDiscountAvailable(int futsal_id, int ground_id, String play_date);
      Discount getDiscountById(int futsal_id, int ground_id);
+     List<Discount> getAllDiscountForAFutsal(int futsal_id);
 }
