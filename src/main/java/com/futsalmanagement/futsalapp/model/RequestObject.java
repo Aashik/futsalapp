@@ -14,6 +14,9 @@ public class RequestObject {
     private Address address;
     private int futsal_id;
     private String new_userName;
+    private int ground_id;
+    private String date;
+
 
     public RequestObject(String fullName, String userName, String email, String contactNo, String password, String futsalName, Address address) {
         this.fullName = fullName;
@@ -26,6 +29,30 @@ public class RequestObject {
     }
 
     public RequestObject() {
+    }
+
+    public int getAccount_id() {
+        return account_id;
+    }
+
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+
+    public int getGround_id() {
+        return ground_id;
+    }
+
+    public void setGround_id(int ground_id) {
+        this.ground_id = ground_id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getNew_userName() {
