@@ -142,7 +142,8 @@ public class BookingController {
         for(Ground ground : groundService.getGoundListByFutsal(futsal_id)){
             List<TimeFrame> availablebooktime = bookingService.getAvailableTimeToBook(futsal_id,to_book_date,ground.getGround_id());
             Map<String,Object> booktimeresponse = new HashMap<>();
-            booktimeresponse.put("ground", ground.getGround_name());
+            booktimeresponse.put("ground_id", ground.getGround_id());
+            booktimeresponse.put("ground_name", ground.getGround_name());
             booktimeresponse.put("booking_date", to_book_date);
             booktimeresponse.put("available_time" , availablebooktime);
             booktimeforAllGround.add(booktimeresponse);

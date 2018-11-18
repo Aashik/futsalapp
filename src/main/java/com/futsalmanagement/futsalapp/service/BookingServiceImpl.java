@@ -116,7 +116,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<TimeFrame> getAvailableTimeToBook(int futsal_id, String to_book_date, int ground_id) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         List<Booking> bookedTimeForTheDay = bookingDao.findAll().stream()
                 .filter(booking -> futsal_id == booking.getBookFutsal().getFutsal_id() &&
                         to_book_date.equals(booking.getBooking_date()) && ground_id == booking.getBookGround().getGround_id()).collect(Collectors.toList());
