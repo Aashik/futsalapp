@@ -29,8 +29,8 @@ public class FutsalServiceImpl implements FutsalService {
 
     @Override
     public boolean checkFutsalAvailability(int futsal_id) {
-        Futsal futsal = futsalDao.getOne(futsal_id);
-        return (futsal != null) ? true : false;
+        Futsal foundFutsal = futsalDao.findAll().stream().filter(futsal -> futsal_id == futsal.getFutsal_id()).findAny().orElse(null);
+        return (foundFutsal != null) ? true : false;
     }
 
 
