@@ -76,15 +76,29 @@ public class BookingController {
     }
 
 
-    @RequestMapping(value = "api/confirmBooking" , method = RequestMethod.GET)
-    public ResponseEntity<GlobalResponse> confirmBooking(@RequestParam("booking_code") String booking_code,
-                                                          @RequestParam("booking_id") int booking_id){
-        System.out.println("booking code -->> " + booking_code);
-        System.out.println("booking id -->> " + booking_id);
-        Booking  foundBooking = bookingService.findBookingById(booking_code,booking_id);
+    @RequestMapping(value = "api/updateBooking" , method = RequestMethod.POST)
+    public ResponseEntity<GlobalResponse> confirmBooking(@RequestBody Map<String , Object> request){
+//        System.out.println("booking code -->> " + booking_code);
+//        System.out.println("booking id -->> " + booking_id);
+        String booking_code = (String)request.get("booking_code");
+        String status = (String)request.get("booking_status");
+        System.out.println("booking status" + status);
+        Booking  foundBooking = bookingService.findBookingById(booking_code);
+
         System.out.println("BOOKING CONTROLLER -->> found booking " + foundBooking);
         if (foundBooking != null){
-         foundBooking.setBooking_status(Status.CONFIRMED.toString());
+            switch (status){
+                case "1" :
+                    foundBooking.setBooking_status(Status.CONFIRMED.toString());
+                    break;
+                case "2":
+                    foundBooking.setBooking_status(Status.CANCELLED.toString());
+                    break;
+                default:
+                    foundBooking.setBooking_status(Status.PENDING.toString());
+                    break;
+            }
+
          Booking checkbooking = bookingService.insertBooking(foundBooking);
          if (checkbooking != null){
              GlobalResponse response = new GlobalResponse(Status.SUCCESS, "booking confirmed successfully ", checkbooking.genericFormat());
@@ -99,23 +113,23 @@ public class BookingController {
 
     //cancel a booking
 
-    @RequestMapping(value = "api/cancelBooking", method = RequestMethod.GET)
-    public ResponseEntity<GlobalResponse> cancelBooking(@RequestParam("booking_code") String booking_code,
-                                                        @RequestParam("booking_id") int booking_id){
-        Booking  foundBooking = bookingService.findBookingById(booking_code,booking_id);
-        if (foundBooking != null){
-            foundBooking.setBooking_status(Status.CANCELLED.toString());
-            Booking checkbooking = bookingService.insertBooking(foundBooking);
-            if (checkbooking != null){
-                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "booking cancelled successfully ", checkbooking.genericFormat());
-                return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-            }
-            GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "sorry could not cancel booking. Try again[", null);
-            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-        }
-        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid request. Try again", null);
-        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "api/cancelBooking", method = RequestMethod.GET)
+//    public ResponseEntity<GlobalResponse> cancelBooking(@RequestParam("booking_code") String booking_code,
+//                                                        @RequestParam("booking_id") int booking_id){
+//        Booking  foundBooking = bookingService.findBookingById(booking_code);
+//        if (foundBooking != null){
+//            foundBooking.setBooking_status(Status.CANCELLED.toString());
+//            Booking checkbooking = bookingService.insertBooking(foundBooking);
+//            if (checkbooking != null){
+//                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "booking cancelled successfully ", checkbooking.genericFormat());
+//                return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+//            }
+//            GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "sorry could not cancel booking. Try again[", null);
+//            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+//        }
+//        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid request. Try again", null);
+//        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+//    }
 
 
     @RequestMapping(value = "api/ground/getAllBooking", method = RequestMethod.GET)

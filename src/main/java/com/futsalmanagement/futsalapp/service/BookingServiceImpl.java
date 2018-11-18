@@ -71,9 +71,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking findBookingById(String booking_code, int booking_id) {
+    public Booking findBookingById(String booking_code) {
         Booking foundbooking = bookingDao.findAll().stream()
-                .filter(booking -> booking_id == booking.getBooking_id() && booking_code.equals(booking.getBooking_code()))
+                .filter(booking ->  booking_code.equals(booking.getBooking_code()))
                 .findAny().orElse(null);
         return foundbooking;
     }
