@@ -1,8 +1,8 @@
 package com.futsalmanagement.futsalapp.model;
 
 import com.futsalmanagement.futsalapp.entity.Expense;
-
 import java.util.List;
+
 
 public class BillRequest {
 

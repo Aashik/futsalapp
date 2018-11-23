@@ -35,8 +35,23 @@ public class Bill {
         this.play_amount = play_amount;
         this.billing_date = billing_date;
     }
+    public Bill(int bill_id, String play_start_time, double play_duration, String book_person_name,BigDecimal play_amount, Date billing_date,Futsal futsal){
+        this.bill_id = bill_id;
+        this.play_start_time = play_start_time;
+        this.play_duration = play_duration;
+        this.book_person_name = book_person_name;
+        this.play_amount = play_amount;
+        this.billing_date = billing_date;
+        this.futsal = futsal;
+    }
 
     public Bill() {
+    }
+
+    public Bill inSimpleFormat(){
+       return new Bill( this.bill_id, this.play_start_time, this.play_duration, this.book_person_name, this.play_amount, this.billing_date,
+        this.futsal);
+
     }
 
     public int getBill_id() {

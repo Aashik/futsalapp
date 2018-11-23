@@ -35,11 +35,11 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public Map<String,BigDecimal> calculateTotalPrice(BillRequest billRequest) {
-        double unitPrice = 0.0;
+        float unitPrice = 0;
         int futsal_id = billRequest.getFutsal_id();
         int ground_id = billRequest.getGround_id();
         Map pricemap = new HashMap();
-        unitPrice = groundService.getGroundById(futsal_id,ground_id).getUnit_hour_price().doubleValue();
+        unitPrice = groundService.getGroundById(futsal_id,ground_id).getUnit_hour_price().floatValue();
 
         if (discountService.isDiscountAvailable(futsal_id,ground_id, billRequest.getPlay_start_time())){
             Discount discount = discountService.getDiscountById(futsal_id, ground_id);
@@ -48,13 +48,13 @@ public class BillServiceImpl implements BillService {
 
             float discountmarginvalue = (float)discountmargin/100;
             System.out.println("discoutnmargin value " + discountmarginvalue);
-            double todiscountprice = discountmarginvalue * unitPrice;
+            float todiscountprice = discountmarginvalue * unitPrice;
             System.out.println("to duscount price  " + todiscountprice);
             unitPrice = unitPrice - todiscountprice;
             System.out.println("the unit price after discount  " + unitPrice );
         }
 
-        double playcost = billRequest.getPlay_duration() * unitPrice ;
+        float playcost = (float)billRequest.getPlay_duration() * unitPrice ;
         pricemap.put("play_cost" , new BigDecimal(playcost));
 
         double extraexpense = 0.0 ;

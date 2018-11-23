@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FutsalServiceImpl implements FutsalService {
@@ -33,6 +34,11 @@ public class FutsalServiceImpl implements FutsalService {
         return (foundFutsal != null) ? true : false;
     }
 
+    @Override
+    public List<String> getAllFutsalName() {
+        List<String> futsalNameList = futsalDao.findAll().stream().map(futsal -> futsal.getFutsal_name()).collect(Collectors.toList());
+        return futsalNameList;
+    }
 
     //    @Override
 //    public Futsal getFutsalByCode(String futsal_code) {

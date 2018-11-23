@@ -76,6 +76,18 @@ public class FutsalController {
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "api/getAllFutsalName", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getAllFutsalName(){
+        List<String> futsalNames = futsalService.getAllFutsalName();
+        if(futsalNames.size() > 0 ){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "futsalNameRetrieved" , futsalNames);
+            return new ResponseEntity<GlobalResponse>(response,HttpStatus.OK);
+
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Null Response" , null);
+        return new ResponseEntity<GlobalResponse>(response,HttpStatus.OK);
+    }
+
     @RequestMapping(value = "api/getGroundList", method = RequestMethod.GET)
     public ResponseEntity<GlobalResponse> getGroundListByFutsal(@RequestParam("futsal_id") int futsal_id){
 

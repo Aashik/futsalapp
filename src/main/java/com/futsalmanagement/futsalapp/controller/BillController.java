@@ -54,7 +54,7 @@ public class BillController {
                 }
 
                 if (billRequest.getExpenseList().size() == count){
-                    GlobalResponse response = new GlobalResponse(Status.SUCCESS, "Bill created successfully" , createdbill);
+                    GlobalResponse response = new GlobalResponse(Status.SUCCESS, "Bill created successfully" , createdbill.inSimpleFormat());
                     return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
                 }
             }
