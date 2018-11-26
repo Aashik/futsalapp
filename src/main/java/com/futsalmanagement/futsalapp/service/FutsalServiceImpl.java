@@ -41,12 +41,23 @@ public class FutsalServiceImpl implements FutsalService {
     }
 
     //    @Override
-//    public Futsal getFutsalByCode(String futsal_code) {
+//    public Futsal getFutsalByCode(String  ) {
 //        List<Futsal> futsallist = futsalDao.findAll();
 //        Futsal foundfutsal = futsallist.stream()
 //                .filter(futsal -> futsal_code.equals(futsal.getFutsal_code())).findAny().orElse(null);
 //        return foundfutsal;
 //    }
 
+
+    @Override
+    public List<Futsal> getAllFutsalDetails() {
+       List<Futsal> getAllFutsals = futsalDao.findAll().stream().map(futsal -> {
+           Futsal futsalObject = new Futsal();
+           futsalObject.setFutsal_name(futsal.getFutsal_name());
+           futsalObject.setFutsal_id(futsal.getFutsal_id());
+           return futsalObject;
+       }).collect(Collectors.toList());
+       return getAllFutsals;
+    }
 
 }

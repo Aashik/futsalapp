@@ -12,5 +12,6 @@ public interface FutsalService {
 //    Futsal getFutsalByCode(String futsal_code);
     Futsal getFutsalById(int futsal_id);
     List<String> getAllFutsalName();
+    List<Futsal> getAllFutsalDetails();
 
 }

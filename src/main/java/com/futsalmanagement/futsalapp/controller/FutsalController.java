@@ -101,6 +101,18 @@ public class FutsalController {
 
     }
 
+    @RequestMapping(value = "api/getAllFutsalDetails", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getAllFutsalDetails(){
+        List<Futsal> allFutsalDetails = futsalService.getAllFutsalDetails();
+        if ( allFutsalDetails != null && allFutsalDetails.size() >= 1){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "All Futsal Retrived Successfully", allFutsalDetails);
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "null data retrived.invalid Request", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+
+    }
+
 }
 
 
