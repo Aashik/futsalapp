@@ -48,7 +48,7 @@ public class BillController {
             int count = 0;
             if (createdbill != null) {
                 for (Expense expense : billRequest.getExpenseList()){
-                    expense.setBill(createdbill);
+                 //   expense.setBill(createdbill);
                     Expense expense1 = expenseService.insert(expense);
                     count = count + (expense1!=null ? 1 : 0);
                 }

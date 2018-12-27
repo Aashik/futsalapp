@@ -110,8 +110,22 @@ public class FutsalController {
         }
         GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "null data retrived.invalid Request", null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-
     }
+
+    @RequestMapping(value = "api/getGroundDetail" , method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getGroundDetails(@RequestParam("futsal_id") int futsal_id,
+                                                           @RequestParam("ground_id") int ground_id){
+
+        Ground ground = groundService.getGroundById(futsal_id,ground_id);
+        if (ground != null){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "ground detail recieved" , ground);
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid request." , null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
+
 
 }
 

@@ -7,8 +7,6 @@ import com.futsalmanagement.futsalapp.model.TimeFrame;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,12 +30,10 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public boolean checkIfDateValid(BookingRequest booking) {
+    public boolean checkIfDateValid(String bookingdate, String bookingtime) {
         try {
-            String bookingdate = booking.getBooking_date().trim();
-            String bookingtime = booking.getBooking_time().trim();
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date bookdate = formatter.parse(bookingdate + " " + bookingtime);
+            Date bookdate = formatter.parse(bookingdate + " " + bookingtime+":00");
             DateTime dtofBook = new DateTime(bookdate);
             Date dt = new Date();
             DateTime dtOrg = new DateTime(dt);
@@ -87,7 +83,7 @@ public class BookingServiceImpl implements BookingService {
 
     private Timestamp converToTimeStamp(String bookingDate, String bookingTime) {
         try {
-            String bookingTimeConcat = bookingDate.trim() + " " + bookingTime.trim();
+            String bookingTimeConcat = bookingDate.trim() + " " + bookingTime.trim() + ":00";
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date booktime = formatter.parse(bookingTimeConcat);
             Timestamp booktimestamp = new Timestamp(booktime.getTime());

@@ -31,7 +31,6 @@ public class DiscountController {
                                                       @RequestParam("futsal_id") int futsal_id,
                                                       @RequestParam("ground_id") int ground_id){
 
-
         int size = discount.getDiscount_weekdays().length;
         int discountMargin = discount.getDiscount_margin();
         if (size > 0 && size <= 7 && discountMargin > 5 && discountMargin < 100) {

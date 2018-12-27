@@ -60,7 +60,7 @@ public class BillServiceImpl implements BillService {
         double extraexpense = 0.0 ;
 
         for (Expense expense : billRequest.getExpenseList()){
-            extraexpense = extraexpense +  (expense.getUnit_price() * expense.getQuantity());
+         //   extraexpense = extraexpense +  (expense.getUnit_price() * expense.getQuantity());
         }
 
         double totalcost = playcost + extraexpense;

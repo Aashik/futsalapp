@@ -32,5 +32,6 @@ dependencies {
 	compile group: 'joda-time', name: 'joda-time', version: '2.3'
 	// https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
 	compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+	compile group:'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.2.0'
 
 }

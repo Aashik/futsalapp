@@ -1,6 +1,7 @@
 package com.futsalmanagement.futsalapp.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 public class Expense {
@@ -8,21 +9,43 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int expense_id;
-    private String particular;
-    private double unit_price;
-    private int quantity;
     @ManyToOne
-    @JoinColumn(name = "bill_id")
-    private Bill bill;
+    @JoinColumn(name = "menu_id")
+    private Menu menu_item;
+    private int quantity;
+    private BigDecimal amount;
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
 
-    public Expense(String particular, double unit_price, int quantity, Bill bill) {
-        this.particular = particular;
-        this.unit_price = unit_price;
+    public Expense(Menu menu_item, int quantity, BigDecimal amount, Game game) {
+        this.menu_item = menu_item;
         this.quantity = quantity;
-        this.bill = bill;
+        this.amount = amount;
+        this.game = game;
     }
 
+    public Expense(int expense_id,Menu menu_item, int quantity, BigDecimal amount) {
+        this.expense_id = expense_id;
+        this.menu_item = menu_item;
+        this.quantity = quantity;
+        this.amount = amount;
+    }
+
+
     public Expense() {
+    }
+
+    public Expense inSimpleFormat(){
+        return new Expense(this.expense_id,this.menu_item, this.quantity, this.amount);
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public int getExpense_id() {
@@ -33,20 +56,12 @@ public class Expense {
         this.expense_id = expense_id;
     }
 
-    public String getParticular() {
-        return particular;
+    public Menu getMenu_item() {
+        return menu_item;
     }
 
-    public void setParticular(String particular) {
-        this.particular = particular;
-    }
-
-    public double getUnit_price() {
-        return unit_price;
-    }
-
-    public void setUnit_price(double unit_price) {
-        this.unit_price = unit_price;
+    public void setMenu_item(Menu menu_item) {
+        this.menu_item = menu_item;
     }
 
     public int getQuantity() {
@@ -57,11 +72,21 @@ public class Expense {
         this.quantity = quantity;
     }
 
-    public Bill getBill() {
-        return bill;
+    public Game getGame() {
+        return game;
     }
 
-    public void setBill(Bill bill) {
-        this.bill = bill;
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "expense_id=" + expense_id +
+                ", menu_item=" + menu_item +
+                ", quantity=" + quantity +
+                ", amount=" + amount +
+                '}';
     }
 }
