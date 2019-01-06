@@ -117,7 +117,7 @@ public class GameController {
 
     //api to add menu item
     @RequestMapping(value = "api/addMenu", method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> addMenu(@RequestBody Menu menu) {
+    public ResponseEntity<GlobalResponse> addMenu(@RequestBody Menu menu){
         Menu inserted_menu = menuService.addMenu(menu);
         if (inserted_menu != null) {
             GlobalResponse response = new GlobalResponse(Status.SUCCESS, "menu added successfully", inserted_menu);
@@ -130,7 +130,6 @@ public class GameController {
 
     @RequestMapping(value = "api/getExpensesByGame", method = RequestMethod.GET)
     public ResponseEntity<GlobalResponse> getAllExpensesByGame(@RequestParam("game_id") int game_id) {
-
         List<Expense> expenses = expenseService.getAllExpensesByGame(game_id);
         if (expenses != null && expenses.size() >= 1) {
             List<Expense> expenseList = expenses.stream()
@@ -140,8 +139,6 @@ public class GameController {
         }
         GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "No any expense available for particular game", null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-
     }
-
 
 }

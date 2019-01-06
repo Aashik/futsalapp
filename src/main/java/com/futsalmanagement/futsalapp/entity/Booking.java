@@ -1,8 +1,5 @@
 package com.futsalmanagement.futsalapp.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.futsalmanagement.futsalapp.model.Status;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -34,19 +31,21 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(int booking_id, @Size(max = 50) String booking_code, @Size(max = 10) String booking_date, @Size(max = 10) String booking_time, double booking_duration, String booking_status, Ground book_ground) {
+    public Booking(int booking_id, @Size(max = 50) String booking_code, @Size(max = 10) String booking_date, @Size(max = 10) String booking_time, double booking_duration, String booking_status, Futsal book_futsal,
+                   Customer customer) {
         this.booking_id = booking_id;
         this.booking_code = booking_code;
         this.booking_date = booking_date;
         this.booking_time = booking_time;
         this.booking_duration = booking_duration;
         this.booking_status = booking_status;
-        this.bookGround = book_ground;
+        this.bookFutsal = book_futsal;
+        this.customer = customer;
     }
 
     public Booking genericFormat(){
         return new Booking(this.booking_id, this.booking_code,
-                this.booking_date,this.booking_time, this.booking_duration, this.booking_status,this.bookGround);
+                this.booking_date,this.booking_time, this.booking_duration, this.booking_status,this.bookFutsal.inGenericFormat(),this.customer.inGenericFOrmat());
     }
 
     public Customer getCustomer() {

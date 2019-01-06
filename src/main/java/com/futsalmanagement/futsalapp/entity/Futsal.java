@@ -39,8 +39,9 @@ public class Futsal {
 
 
 
-    public Futsal(int futsal_id, String contact_no, String mobile_no, Address address, String email, String image_url) {
+    public Futsal(int futsal_id, String futsal_name, String contact_no, String mobile_no, Address address, String email, String image_url) {
         this.futsal_id = futsal_id;
+        this.futsal_name = futsal_name;
         this.contact_no = contact_no;
         this.mobile_no = mobile_no;
         this.address = address;
@@ -49,6 +50,10 @@ public class Futsal {
     }
 
     public Futsal() {
+    }
+
+    public Futsal inGenericFormat(){
+        return new Futsal(this.futsal_id,this.futsal_name,this.contact_no,this.mobile_no,this.address,this.email,this.image_url);
     }
 
     public Set<Ground> getGround() {

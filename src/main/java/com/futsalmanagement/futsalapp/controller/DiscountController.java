@@ -1,9 +1,9 @@
 package com.futsalmanagement.futsalapp.controller;
 
-import com.futsalmanagement.futsalapp.entity.Discount;
+import com.futsalmanagement.futsalapp.model.DiscountObject;
 import com.futsalmanagement.futsalapp.model.GlobalResponse;
 import com.futsalmanagement.futsalapp.model.Status;
-import com.futsalmanagement.futsalapp.service.DiscountService;
+import com.futsalmanagement.futsalapp.service.DiscountMasterService;
 import com.futsalmanagement.futsalapp.service.FutsalService;
 import com.futsalmanagement.futsalapp.service.GroundService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,58 +12,50 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
 
 @RestController
 @CrossOrigin
 public class DiscountController {
 
     @Autowired
-    private DiscountService discountService;
-    @Autowired
     private FutsalService futsalService;
     @Autowired
     private GroundService groundService;
+    @Autowired
+    private DiscountMasterService discountMasterService;
 
 
-    @RequestMapping(value = "api/addDiscount" , method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> addDiscount(@RequestBody Discount discount,
-                                                      @RequestParam("futsal_id") int futsal_id,
-                                                      @RequestParam("ground_id") int ground_id){
-
-        int size = discount.getDiscount_weekdays().length;
-        int discountMargin = discount.getDiscount_margin();
-        if (size > 0 && size <= 7 && discountMargin > 5 && discountMargin < 100) {
-            if (futsalService.checkFutsalAvailability(futsal_id) && groundService.checkGroundAvailability(futsal_id, ground_id)) {
-                discount.setFutsal(futsalService.getFutsalById(futsal_id));
-                discount.setGround(groundService.getGroundById(futsal_id, ground_id));
-                Discount insertedDiscount = discountService.addDiscount(discount);
-                if (insertedDiscount != null) {
-                    GlobalResponse response = new GlobalResponse(Status.SUCCESS, "discount created successfully", insertedDiscount);
-                    return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-                }
-                GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "Could not process request", null);
+    @RequestMapping(value = "api/addDiscount", method = RequestMethod.POST)
+    public ResponseEntity<GlobalResponse> addDiscount(@RequestBody DiscountObject discountObject){
+        if (futsalService.checkFutsalAvailability(discountObject.getFutsal_id())
+                && groundService.checkGroundAvailability(discountObject.getFutsal_id(), discountObject.getGround_id())) {
+            int result = discountMasterService.saveDiscount(discountObject);
+            if (result == 1) {
+                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "discount added successfuly", null);
                 return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
             }
-            GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid futsal or ground", null);
+            GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "cannot perform operation. check Request again", null);
             return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
         }
-        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "The request data is not valid", null);
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "invalid futsal or ground id ", null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "api/getallAvailableDiscount" , method = RequestMethod.GET)
+
+    @RequestMapping(value = "api/getallAvailableDiscount", method = RequestMethod.GET)
     public ResponseEntity<GlobalResponse> getAllAvailableDiscount(@RequestParam("futsal_id") int futsal_id){
 
-        List<Discount> discountList = discountService.getAllDiscountForAFutsal(futsal_id);
-        List<Discount> anotherformatdiscountlist = discountList.stream().map(discount -> discount.toAnotherFormat()).collect(Collectors.toList());
-        if (discountList != null){
-            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "all discounts for specified futsal", anotherformatdiscountlist);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+        List<Map<String, Object>> discoultlist  = discountMasterService.getAllDiscountForAFutsal(futsal_id);
+        if (discoultlist.size() > 0){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS,"discount retrieved" , discoultlist);
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
         }
-        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "no discount available for the futsal", null);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        GlobalResponse response = new GlobalResponse(Status.SUCCESS,"discount retrieved" , discoultlist);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
+
 
 
 

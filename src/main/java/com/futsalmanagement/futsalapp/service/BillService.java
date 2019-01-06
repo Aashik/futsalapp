@@ -11,7 +11,7 @@ import java.util.Map;
 public interface BillService {
 
     Bill insert(Bill bill);
-    Map<String,BigDecimal> calculateTotalPrice(BillRequest billRequest);
+  //  Map<String,BigDecimal> calculateTotalPrice(BillRequest billRequest);
     //date should be specifically in format "yyyy-MM-dd"
     List<SalesReport> getDailySales(String date, int futsal_id, int ground_id);
     BigDecimal calculateTotalDailySalesAmount(List<SalesReport> salesReportList);

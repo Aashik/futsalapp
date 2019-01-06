@@ -46,6 +46,21 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public boolean ifPastDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date requestDate = sdf.parse(date + " " + "00:00:00");
+            DateTime dt_requestDate = new DateTime(requestDate);
+            Date todayDate = new Date();
+            DateTime dt_todayDate = new DateTime(todayDate);
+            return dt_requestDate.isBefore(dt_todayDate);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean ifBookTimeAvailable(BookingRequest booking) {
         List<Booking> bookingList = bookingDao.findAll().stream().filter(eachbooking ->
                 booking.getFutsal_id() == eachbooking.getBookFutsal().getFutsal_id() &&
@@ -116,6 +131,8 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> bookedTimeForTheDay = bookingDao.findAll().stream()
                 .filter(booking -> futsal_id == booking.getBookFutsal().getFutsal_id() &&
                         to_book_date.equals(booking.getBooking_date()) && ground_id == booking.getBookGround().getGround_id()).collect(Collectors.toList());
+
+        System.out.println("total book count for a futsal for ground " + ground_id +"is -->>" + bookedTimeForTheDay.size());
         Collections.sort(bookedTimeForTheDay, new Comparator<Booking>() {
             @Override
             public int compare(Booking b1, Booking b2) {
@@ -126,27 +143,29 @@ public class BookingServiceImpl implements BookingService {
         Timestamp groundopeningtime = converToTimeStamp(to_book_date, groundService.getGroundById(futsal_id, ground_id).getOpening_hour());
         Timestamp afterHalfHour = new Timestamp(groundopeningtime.getTime() + (30 * 60 * 1000));
         Timestamp starttime = groundopeningtime;
+        if (bookedTimeForTheDay.size() > 0) {
+            for (Booking b : bookedTimeForTheDay) {
+                Timestamp booktime = converToTimeStamp(b.getBooking_date(), b.getBooking_time());
+                Timestamp bookendtime = new Timestamp(booktime.getTime() + (long) (b.getBooking_duration() * 60 * 60 * 1000));
+                while (afterHalfHour.before(booktime)) {
+                    afterHalfHour = new Timestamp(afterHalfHour.getTime() + (30 * 60 * 1000));
+                }
+                TimeFrame timeFrame = new TimeFrame();
+                Date availstarttime = new Date(starttime.getTime());
+                Date availendtime = new Date(afterHalfHour.getTime());
 
-        for (Booking b : bookedTimeForTheDay) {
-            Timestamp booktime = converToTimeStamp(b.getBooking_date(), b.getBooking_time());
-            Timestamp bookendtime = new Timestamp(booktime.getTime() + (long)(b.getBooking_duration() * 60 * 60 * 1000));
-            while (afterHalfHour.before(booktime)) {
-                afterHalfHour = new Timestamp(afterHalfHour.getTime() + (30 * 60 * 1000));
+                timeFrame.setStart_time(sdf.format(availstarttime));
+                timeFrame.setEnd_time(sdf.format(availendtime));
+                availableBookTimes.add(timeFrame);
+                starttime = bookendtime;
+                afterHalfHour = new Timestamp(bookendtime.getTime() + (30 * 60 * 1000));
             }
-            TimeFrame timeFrame = new TimeFrame();
-            Date availstarttime = new Date(starttime.getTime());
-            Date availendtime = new Date(afterHalfHour.getTime());
-
-            timeFrame.setStart_time(sdf.format(availstarttime));
-            timeFrame.setEnd_time(sdf.format(availendtime));
-            availableBookTimes.add(timeFrame);
-            starttime = bookendtime;
-            afterHalfHour = new Timestamp(bookendtime.getTime() + (30 * 60 * 1000));
         }
-
         Date laststarttime = new Date(starttime.getTime());
+        System.out.println("last start time  -->> " + laststarttime);
         Date lastendtime = new Date(converToTimeStamp(to_book_date, groundService.getGroundById(futsal_id,ground_id).getClosing_hour()).getTime());
-        if ((lastendtime.getTime() - laststarttime.getTime()) >= (1*60*60*1000)){
+        System.out.println("last end time -->> " + lastendtime);
+        if((lastendtime.getTime() - laststarttime.getTime()) >= (1*60*60*1000)){
             TimeFrame lasttimeframe = new TimeFrame();
             lasttimeframe.setStart_time(sdf.format(laststarttime));
             lasttimeframe.setEnd_time(sdf.format(lastendtime));
@@ -155,5 +174,26 @@ public class BookingServiceImpl implements BookingService {
         return availableBookTimes;
     }
 
-
+    @Override
+    public List<TimeFrame> filterOutPastTime(List<TimeFrame> timeFrames, String request_date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date currentDate = new Date();
+        List<TimeFrame> filteredTimeFrames = new ArrayList<>();
+        for (TimeFrame tf : timeFrames){
+            Timestamp startInstance = converToTimeStamp(request_date, tf.getStart_time());
+            Timestamp endInstance = converToTimeStamp(request_date, tf.getEnd_time());
+            Date date = new Date();
+            Timestamp currenttime = new Timestamp(date.getTime());
+            while(currenttime.after(startInstance)){
+                startInstance = new Timestamp(startInstance.getTime() + (30*60*1000));
+            }
+            if ((endInstance.getTime() - startInstance.getTime()) >= 1*60*60*1000){
+             TimeFrame filTimeFrame = new TimeFrame();
+             filTimeFrame.setStart_time(sdf.format(startInstance));
+             filTimeFrame.setEnd_time(sdf.format(endInstance));
+             filteredTimeFrames.add(filTimeFrame);
+            }
+        }
+        return filteredTimeFrames;
+    }
 }

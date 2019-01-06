@@ -3,13 +3,9 @@ package com.futsalmanagement.futsalapp.service;
 import com.futsalmanagement.futsalapp.dao.GameDao;
 import com.futsalmanagement.futsalapp.entity.Game;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -35,6 +31,8 @@ public class GameServiceImpl implements GameService {
            //return dtRequest.isEqual(dtCurrent);
            return requestdate.equals(todaydate);
     }
+
+
 
 
 

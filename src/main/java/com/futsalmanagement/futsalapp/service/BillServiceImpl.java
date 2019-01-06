@@ -3,7 +3,6 @@ package com.futsalmanagement.futsalapp.service;
 
 import com.futsalmanagement.futsalapp.dao.BillDao;
 import com.futsalmanagement.futsalapp.entity.Bill;
-import com.futsalmanagement.futsalapp.entity.Discount;
 import com.futsalmanagement.futsalapp.entity.Expense;
 import com.futsalmanagement.futsalapp.entity.Ground;
 import com.futsalmanagement.futsalapp.model.BillRequest;
@@ -21,8 +20,7 @@ public class BillServiceImpl implements BillService {
 
     @Autowired
     private BillDao billDao;
-    @Autowired
-    private DiscountService discountService;
+
     @Autowired
     private GroundService groundService;
 
@@ -33,41 +31,41 @@ public class BillServiceImpl implements BillService {
     }
 
 
-    @Override
-    public Map<String,BigDecimal> calculateTotalPrice(BillRequest billRequest) {
-        float unitPrice = 0;
-        int futsal_id = billRequest.getFutsal_id();
-        int ground_id = billRequest.getGround_id();
-        Map pricemap = new HashMap();
-        unitPrice = groundService.getGroundById(futsal_id,ground_id).getUnit_hour_price().floatValue();
-
-        if (discountService.isDiscountAvailable(futsal_id,ground_id, billRequest.getPlay_start_time())){
-            Discount discount = discountService.getDiscountById(futsal_id, ground_id);
-            //in percentage
-            int discountmargin = discount.getDiscount_margin();
-
-            float discountmarginvalue = (float)discountmargin/100;
-            System.out.println("discoutnmargin value " + discountmarginvalue);
-            float todiscountprice = discountmarginvalue * unitPrice;
-            System.out.println("to duscount price  " + todiscountprice);
-            unitPrice = unitPrice - todiscountprice;
-            System.out.println("the unit price after discount  " + unitPrice );
-        }
-
-        float playcost = (float)billRequest.getPlay_duration() * unitPrice ;
-        pricemap.put("play_cost" , new BigDecimal(playcost));
-
-        double extraexpense = 0.0 ;
-
-        for (Expense expense : billRequest.getExpenseList()){
-         //   extraexpense = extraexpense +  (expense.getUnit_price() * expense.getQuantity());
-        }
-
-        double totalcost = playcost + extraexpense;
-        pricemap.put("additional_cost", new BigDecimal(extraexpense));
-        return pricemap;
-
-    }
+//    @Override
+//    public Map<String,BigDecimal> calculateTotalPrice(BillRequest billRequest) {
+//        float unitPrice = 0;
+//        int futsal_id = billRequest.getFutsal_id();
+//        int ground_id = billRequest.getGround_id();
+//        Map pricemap = new HashMap();
+//        unitPrice = groundService.getGroundById(futsal_id,ground_id).getUnit_hour_price().floatValue();
+//
+//        if (discountService.isDiscountAvailable(futsal_id,ground_id, billRequest.getPlay_start_time())){
+//            Discount discount = discountService.getDiscountById(futsal_id, ground_id);
+//            //in percentage
+//            int discountmargin = discount.getDiscount_margin();
+//
+//            float discountmarginvalue = (float)discountmargin/100;
+//            System.out.println("discoutnmargin value " + discountmarginvalue);
+//            float todiscountprice = discountmarginvalue * unitPrice;
+//            System.out.println("to duscount price  " + todiscountprice);
+//            unitPrice = unitPrice - todiscountprice;
+//            System.out.println("the unit price after discount  " + unitPrice );
+//        }
+//
+//        float playcost = (float)billRequest.getPlay_duration() * unitPrice ;
+//        pricemap.put("play_cost" , new BigDecimal(playcost));
+//
+//        double extraexpense = 0.0 ;
+//
+//        for (Expense expense : billRequest.getExpenseList()){
+//         //   extraexpense = extraexpense +  (expense.getUnit_price() * expense.getQuantity());
+//        }
+//
+//        double totalcost = playcost + extraexpense;
+//        pricemap.put("additional_cost", new BigDecimal(extraexpense));
+//        return pricemap;
+//
+//    }
 
     @Override
     public List<SalesReport> getDailySales(String date, int futsal_id, int ground_id) {

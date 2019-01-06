@@ -29,6 +29,10 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer inGenericFOrmat(){
+        return new Customer(this.full_name,this.contact_number,this.address,this.email);
+    }
+
     public Customer() {
     }
 

@@ -71,7 +71,7 @@ public class BookingController {
                     insBooking.setBookGround(groundService.getGroundById(booking.getFutsal_id(), booking.getGround_id()));
                     Booking cretedBooking = bookingService.insertBooking(insBooking);
                     if (cretedBooking != null) {
-                        GlobalResponse response = new GlobalResponse(Status.SUCCESS, "requested for the booking successfully", cretedBooking);
+                        GlobalResponse response = new GlobalResponse(Status.SUCCESS, "requested for the booking successfully", cretedBooking.genericFormat());
                         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
                     }
                     GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "invalid request. Cannot create booking", null);
@@ -133,11 +133,20 @@ public class BookingController {
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "api/getParticularBooking", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getParticularBooking(@RequestParam("booking_code") String booking_code) {
+        Booking booking = bookingService.findBookingById(booking_code);
+        if (booking != null) {
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "booking details retrieved", booking.genericFormat());
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "Invalid booking code", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "api/ground/getAllBooking", method = RequestMethod.GET)
     public ResponseEntity<GlobalResponse> getAllBooking(@RequestParam("futsal_id") int futsal_id) {
-        //int futsal_id = Integer.parseInt(request.get("futsal_id").toString());
-        //int ground_id = Integer.parseInt(request.get("ground_id").toString());
 
         List<Booking> bookingList = bookingService.getAllBooking(futsal_id);
         List<Booking> bookingListInGeneric = bookingList.stream().map(booking -> booking.genericFormat()).collect(Collectors.toList());
@@ -150,30 +159,32 @@ public class BookingController {
     }
 
     @RequestMapping(value = "api/searchAvailableBooking", method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> fetchAvailableBooking(@RequestBody Map<String, Object> requestObject){
-
+    public ResponseEntity<GlobalResponse> fetchAvailableBooking(@RequestBody Map<String, Object> requestObject) {
         List<Map<String, Object>> booktimeforAllGround = new ArrayList<>();
         int futsal_id = Integer.parseInt(requestObject.get("futsal_id").toString());
         String to_book_date = requestObject.get("to_book_date").toString();
         //check if valid date. should not be able to search for booking for past dates
-           for (Ground ground : groundService.getGoundListByFutsal(futsal_id)) {
-               List<TimeFrame> availablebooktime = bookingService.getAvailableTimeToBook(futsal_id, to_book_date, ground.getGround_id());
-               Map<String, Object> booktimeresponse = new HashMap<>();
-               booktimeresponse.put("ground_id", ground.getGround_id());
-               booktimeresponse.put("ground_name", ground.getGround_name());
-               booktimeresponse.put("booking_date", to_book_date);
-               booktimeresponse.put("available_time", availablebooktime);
-               booktimeforAllGround.add(booktimeresponse);
-           }
-           
-           if (booktimeforAllGround.size() > 0 && !booktimeforAllGround.isEmpty()) {
-               GlobalResponse response = new GlobalResponse(Status.SUCCESS, "Available booking time", booktimeforAllGround);
-               return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-           }
+        boolean test = bookingService.ifPastDate(to_book_date);
+        System.out.println("is pastdate test  --->>>> " + test);
+        if (!bookingService.ifPastDate(to_book_date) || gameService.checkifTodayDate(to_book_date)){
+            for (Ground ground : groundService.getGoundListByFutsal(futsal_id)) {
+                List<TimeFrame> availablebooktime = bookingService.getAvailableTimeToBook(futsal_id, to_book_date, ground.getGround_id());
+                Map<String, Object> booktimeresponse = new HashMap<>();
+                booktimeresponse.put("available_time", bookingService.filterOutPastTime(availablebooktime,to_book_date));
+                booktimeresponse.put("ground_id", ground.getGround_id());
+                booktimeresponse.put("ground_name", ground.getGround_name());
+                booktimeresponse.put("booking_date", to_book_date);
+                booktimeforAllGround.add(booktimeresponse);
+            }
 
-           GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Sorry invalid request", null);
-           return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-       }
-//       GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid date time.", null);
-//       return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+            if (booktimeforAllGround.size() > 0 && !booktimeforAllGround.isEmpty()) {
+                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "Available booking time", booktimeforAllGround);
+                return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+            }
+        }
+
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Sorry invalid request/Date time error", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
 }

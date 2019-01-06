@@ -40,9 +40,9 @@ public class BillController {
             to_persist_bill.setFutsal(futsalService.getFutsalById(futsal_id));
             to_persist_bill.setGround(groundService.getGroundById(futsal_id, ground_id));
             //to_persist_bill.setTotal_amount(billService.calculateTotalPrice(billRequest));
-            Map<String, BigDecimal> pricemap = billService.calculateTotalPrice(billRequest);
-            to_persist_bill.setPlay_amount(pricemap.get("play_cost"));
-            to_persist_bill.setAddition_expense_amount(pricemap.get("additional_cost"));
+           // Map<String, BigDecimal> pricemap = billService.calculateTotalPrice(billRequest);
+          //  to_persist_bill.setPlay_amount(pricemap.get("play_cost"));
+         //   to_persist_bill.setAddition_expense_amount(pricemap.get("additional_cost"));
 
             Bill createdbill = billService.insert(to_persist_bill);
             int count = 0;

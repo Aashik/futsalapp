@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 23, 2018 at 12:37 PM
+-- Generation Time: Jan 06, 2019 at 06:21 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -182,49 +182,105 @@ CREATE TABLE `booking` (
   `booking_duration` double NOT NULL,
   `booking_status` varchar(50) DEFAULT NULL,
   `booking_time` varchar(10) DEFAULT NULL,
-  `contact_num` varchar(20) DEFAULT NULL,
   `futsal_id` int(11) DEFAULT NULL,
   `ground_id` int(11) DEFAULT NULL,
-  `full_name` varchar(50) DEFAULT NULL
+  `customer_id` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`booking_id`, `booking_code`, `booking_date`, `booking_duration`, `booking_status`, `booking_time`, `contact_num`, `futsal_id`, `ground_id`, `full_name`) VALUES
-(9, 'CF-1135', '2018-10-29', 1.5, 'PENDING', '19:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
-(4, 'CF-75', '2018-10-29', 1.5, 'PENDING', '10:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
-(8, 'CF-8946', '2018-10-30', 1.5, 'PENDING', '10:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
-(10, 'CF-7353', '2018-10-31', 1.5, 'CANCELLED', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
-(11, 'CF-4897', '2018-11-01', 2, 'PENDING', '11:30:00', '9849582827', 531, 533, 'Mansubh Bhandari'),
-(12, 'AF-9924', '2018-11-14', 2, 'PENDING', '10:00:00', '9849582827', 536, 537, 'Mansubh Bhandari'),
-(13, 'AF-9814', '2018-11-14', 1.5, 'CONFIRMED', '15:00:00', '98495821231', 536, 537, 'Sagar Pandey'),
-(14, 'AF-519', '2018-11-14', 1, 'PENDING', '11:00:00', '9849582123', 536, 538, 'Ram Sharma'),
-(15, 'AF-9547', '2018-11-14', 2, 'PENDING', '17:00:00', '9849582123', 536, 538, 'Ram Sharma'),
-(16, 'NF-7368', '2018-11-18', 2, 'PENDING', '17:00:00', '9849582123', 544, 545, 'Ram Sharma'),
-(17, 'BF-8801', '2018-11-19', 1, 'CONFIRMED', '02:00:00', '123123123', 547, 548, 'adf');
+INSERT INTO `booking` (`booking_id`, `booking_code`, `booking_date`, `booking_duration`, `booking_status`, `booking_time`, `futsal_id`, `ground_id`, `customer_id`) VALUES
+(18, 'BF-2225', '2018-12-27', 2, 'GAME_STARTED', '16:30', 547, 548, 4),
+(19, 'BF-4942', '2019-01-02', 2, 'PENDING', '12:30', 547, 548, 5),
+(20, 'BF-5870', '2019-01-02', 2, 'PENDING', '16:30', 547, 548, 5),
+(21, 'BF-3719', '2019-01-03', 1, 'PENDING', '10:30', 547, 548, 5),
+(22, 'BF-4213', '2019-01-03', 1, 'PENDING', '12:30', 547, 548, 5),
+(23, 'BF-2297', '2019-01-03', 1, 'CONFIRMED', '17:30', 547, 548, 5);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `discount`
+-- Table structure for table `customer`
 --
 
-CREATE TABLE `discount` (
-  `id` int(11) NOT NULL,
-  `discount_margin` int(11) NOT NULL,
-  `discount_weekdays` tinyblob,
+CREATE TABLE `customer` (
+  `customer_id` int(11) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `contact_number` varchar(15) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `full_name` varchar(50) NOT NULL,
+  `futsal_id` int(11) DEFAULT NULL,
+  `customer_play_count` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customer_id`, `address`, `contact_number`, `email`, `full_name`, `futsal_id`, `customer_play_count`) VALUES
+(1, '7ytasdf banesowrkd', '987465', 'basf@gmail.com', 'Ram Thapa', NULL, 0),
+(2, '7ytasdf banesowrkd', '987465', 'basf@gmail.com', 'Ram Thapa', 547, 0),
+(3, '7ytasdf banesowrkd', '9849581817', 'basf@gmail.com', 'Hari Kishan', 547, 2),
+(4, NULL, '9847281712', NULL, 'Ram sharan Mahat', 547, 1),
+(5, NULL, '9847564125', NULL, 'Pradip Sapkota', 547, 6),
+(6, 'potato', '984958784', 'basf@gmail.com', 'Ravi Krishan', 547, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discount_detail`
+--
+
+CREATE TABLE `discount_detail` (
+  `discount_detail_id` int(11) NOT NULL,
+  `date_from` varchar(255) DEFAULT NULL,
+  `date_to` varchar(255) DEFAULT NULL,
+  `margin` int(11) NOT NULL,
+  `status` varchar(50) NOT NULL,
+  `time_from` varchar(255) DEFAULT NULL,
+  `time_to` varchar(255) DEFAULT NULL,
+  `weekday` varchar(255) DEFAULT NULL,
+  `discount_master_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `discount_detail`
+--
+
+INSERT INTO `discount_detail` (`discount_detail_id`, `date_from`, `date_to`, `margin`, `status`, `time_from`, `time_to`, `weekday`, `discount_master_id`) VALUES
+(2, '2019-01-05', '2019-01-10', 20, 'ACTIVE', '06:00', '10:00', 'SUN', 8),
+(3, '2019-01-05', '2019-01-10', 20, 'ACTIVE', '06:00', '10:00', 'SUN', 9),
+(4, '2019-01-05', '2019-01-10', 25, 'ACTIVE', '06:00', '20:00', NULL, 13),
+(5, '2019-01-05', '2019-01-10', 25, 'ACTIVE', '06:00', '12:00', NULL, 14),
+(6, '2019-01-05', '2019-01-10', 25, 'ACTIVE', '01:00', '20:00', NULL, 14);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `discount_master`
+--
+
+CREATE TABLE `discount_master` (
+  `discount_master_id` int(11) NOT NULL,
+  `discount_name` varchar(255) DEFAULT NULL,
+  `discount_type` int(11) NOT NULL,
+  `insert_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `remarks` varchar(255) DEFAULT NULL,
   `futsal_id` int(11) DEFAULT NULL,
   `ground_id` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `discount`
+-- Dumping data for table `discount_master`
 --
 
-INSERT INTO `discount` (`id`, `discount_margin`, `discount_weekdays`, `futsal_id`, `ground_id`) VALUES
-(1, 10, 0xaced0005757200025b494dba602676eab2a502000078700000000400000002000000030000000400000005, 536, 537);
+INSERT INTO `discount_master` (`discount_master_id`, `discount_name`, `discount_type`, `insert_time`, `remarks`, `futsal_id`, `ground_id`) VALUES
+(8, 'Festival Heavy DISCOUNT', 2, '2019-01-04 10:06:25', ' good offer school childrens', 547, 548),
+(9, 'Festival Heavy DISCOUNT', 2, '2019-01-04 10:13:32', ' good offer school childrens', 547, 548),
+(13, 'Winter Discount', 2, '2019-01-05 07:06:36', 'come get some heat', 547, 548),
+(14, 'Jan first discount', 2, NULL, 'happy new year', 547, 548);
 
 -- --------------------------------------------------------
 
@@ -234,43 +290,19 @@ INSERT INTO `discount` (`id`, `discount_margin`, `discount_weekdays`, `futsal_id
 
 CREATE TABLE `expense` (
   `expense_id` int(11) NOT NULL,
-  `particular` varchar(255) DEFAULT NULL,
   `quantity` int(11) NOT NULL,
-  `unit_price` double NOT NULL,
-  `bill_id` int(11) DEFAULT NULL
+  `game_id` int(11) DEFAULT NULL,
+  `menu_id` int(11) DEFAULT NULL,
+  `amount` decimal(19,2) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `expense`
 --
 
-INSERT INTO `expense` (`expense_id`, `particular`, `quantity`, `unit_price`, `bill_id`) VALUES
-(1, 'Mineral water', 4, 20, 1),
-(2, 'Surya Cigerrate', 5, 15, 1),
-(3, 'Mineral water', 4, 20, 2),
-(4, 'Surya Cigerrate', 2, 15, 2),
-(5, 'Mineral water', 4, 20, 3),
-(6, 'Surya Cigerrate', 2, 15, 3),
-(7, 'Mineral water', 4, 20, 4),
-(8, 'Surya Cigerrate', 2, 15, 4),
-(9, 'Mineral water', 4, 20, 5),
-(10, 'Wai Wai Noodles', 2, 20, 5),
-(11, 'Mineral water', 4, 20, 6),
-(12, 'Wai Wai Noodles', 2, 20, 6),
-(13, 'Mineral water', 4, 20, 7),
-(14, 'Wai Wai Noodles', 2, 20, 7),
-(15, 'Mineral water', 4, 20, 8),
-(16, 'Wai Wai Noodles', 2, 20, 8),
-(17, 'Mineral water', 4, 20, 9),
-(18, 'Wai Wai Noodles', 2, 20, 9),
-(19, 'Mineral water', 4, 20, 10),
-(20, 'Wai Wai Noodles', 2, 20, 10),
-(21, 'Mineral water', 4, 20, 11),
-(23, 'Mineral water', 4, 20, 12),
-(24, 'Wai Wai Noodles', 2, 20, 12),
-(25, 'Mineral water', 4, 20, 13),
-(26, 'Mineral water', 4, 20, 14),
-(27, 'Mineral water', 4, 20, 15);
+INSERT INTO `expense` (`expense_id`, `quantity`, `game_id`, `menu_id`, `amount`) VALUES
+(5, 5, 10, 1, '100.00'),
+(6, 2, 10, 2, '50.00');
 
 -- --------------------------------------------------------
 
@@ -350,6 +382,37 @@ INSERT INTO `futsal_operation_jn` (`id`, `futsal_id`, `futsal_name`, `operation`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `game`
+--
+
+CREATE TABLE `game` (
+  `game_id` int(11) NOT NULL,
+  `entry_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `game_status` varchar(20) DEFAULT NULL,
+  `game_type` varchar(20) DEFAULT NULL,
+  `play_date` varchar(10) DEFAULT NULL,
+  `play_duration` double NOT NULL,
+  `play_start_time` varchar(10) DEFAULT NULL,
+  `futsal_id` int(11) DEFAULT NULL,
+  `ground_id` int(11) DEFAULT NULL,
+  `customer_id` int(11) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `game`
+--
+
+INSERT INTO `game` (`game_id`, `entry_date`, `game_status`, `game_type`, `play_date`, `play_duration`, `play_start_time`, `futsal_id`, `ground_id`, `customer_id`) VALUES
+(5, '2018-12-26 09:50:14', 'STARTED', 'DIRECT_ENTRY', '2018-12-26', 1, '16:30', 547, 548, 1),
+(6, '2018-12-26 09:52:37', 'STARTED', 'DIRECT_ENTRY', '2018-12-26', 1, '17:30', 547, 548, 2),
+(7, '2018-12-27 08:31:26', 'STARTED', 'DIRECT_ENTRY', '2018-12-27', 1.5, '17:30', 547, 548, 3),
+(8, '2018-12-27 08:33:34', 'STARTED', 'DIRECT_ENTRY', '2018-12-27', 1.5, '17:30', 547, 548, 3),
+(9, '2018-12-27 11:06:32', 'STARTED', 'BOOKED', '2018-12-27', 2, '16:30', 547, 548, 4),
+(10, '2019-01-03 05:43:15', 'STARTED', 'DIRECT_ENTRY', '2019-01-03', 1.5, '12:30', 547, 548, 6);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ground`
 --
 
@@ -375,8 +438,8 @@ INSERT INTO `ground` (`ground_id`, `closing_hour`, `ground_name`, `image`, `open
 (541, '22:00:00', 'A', 'http://testurl', '08:00:00', '500.00', 540, 'ACTIVE'),
 (542, '20:00:00', 'B', 'http://testurl', '06:00:00', '500.00', 540, 'ACTIVE'),
 (545, '20:00:00', 'A', 'http://testurl', '06:00:00', '500.00', 544, 'ACTIVE'),
-(548, '20:00:00', 'A', 'http://testurl', '06:00:00', '500.00', 547, 'ACTIVE'),
-(549, '08:00:00', 'sdfasd', 'adsfasd', '10:00:00', '500.00', 547, 'ACTIVE');
+(548, '20:00', 'A', 'http://testurl', '06:00', '500.00', 547, 'ACTIVE'),
+(549, '20:00', 'B', 'adsfasd', '10:00', '500.00', 547, 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -428,6 +491,29 @@ INSERT INTO `login` (`login_id`, `login_time`, `login_token`, `login_token_statu
 (10, NULL, 'b3827ae0ae884cdb7d136ee5f0424f80', 1, 'surya', 17),
 (11, NULL, '551481c606b11957b32827aef34edbf4', 1, 'surya', 17),
 (12, NULL, '342da620d30589942e6aa6b545a65f27', 1, 'nikunjey', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `menu`
+--
+
+CREATE TABLE `menu` (
+  `menu_id` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `menu_item` varchar(255) DEFAULT NULL,
+  `unit_price` decimal(19,2) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `menu`
+--
+
+INSERT INTO `menu` (`menu_id`, `description`, `menu_item`, `unit_price`) VALUES
+(1, 'Just a water', 'Mineral Water', '20.00'),
+(2, 'Just a juice', 'Real juice', '25.00'),
+(3, 'Just a Cigarrate', 'Surya Cigarrate', '15.00'),
+(4, 'Juice of suntala', 'Real juice', '25.00');
 
 -- --------------------------------------------------------
 
@@ -510,22 +596,38 @@ ALTER TABLE `bill`
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`booking_id`),
   ADD KEY `FKp6hoe2xhtk3syg671kafsijd` (`futsal_id`),
-  ADD KEY `FK9gygg2455povas0jvhvyj3cef` (`ground_id`);
+  ADD KEY `FK9gygg2455povas0jvhvyj3cef` (`ground_id`),
+  ADD KEY `FKlnnelfsha11xmo2ndjq66fvro` (`customer_id`);
 
 --
--- Indexes for table `discount`
+-- Indexes for table `customer`
 --
-ALTER TABLE `discount`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FKmx6k9dei4q48xckye9cyg18wh` (`futsal_id`),
-  ADD KEY `FK3trhn3a3ubx4ufk1dys6n73cp` (`ground_id`);
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`customer_id`),
+  ADD KEY `FKm8jbkauqw16qi4prck54aad3l` (`futsal_id`);
+
+--
+-- Indexes for table `discount_detail`
+--
+ALTER TABLE `discount_detail`
+  ADD PRIMARY KEY (`discount_detail_id`),
+  ADD KEY `FKlvxt110j1q2winyp6okxvuspv` (`discount_master_id`);
+
+--
+-- Indexes for table `discount_master`
+--
+ALTER TABLE `discount_master`
+  ADD PRIMARY KEY (`discount_master_id`),
+  ADD KEY `FKf3klc39rvq5ipin5y9oig118j` (`futsal_id`),
+  ADD KEY `FKcn2b3fypnafd1nksegqu71abs` (`ground_id`);
 
 --
 -- Indexes for table `expense`
 --
 ALTER TABLE `expense`
   ADD PRIMARY KEY (`expense_id`),
-  ADD KEY `FKa6o36sk9smgorqwww3ey59cli` (`bill_id`);
+  ADD KEY `FKqq5ucmdd5yaduskegbk8wnbkp` (`game_id`),
+  ADD KEY `FKk3dn010ja4d9p2plb89fi690v` (`menu_id`);
 
 --
 -- Indexes for table `futsal`
@@ -541,6 +643,15 @@ ALTER TABLE `futsal_operation_jn`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `game`
+--
+ALTER TABLE `game`
+  ADD PRIMARY KEY (`game_id`),
+  ADD KEY `FKep4rk1ihtf6ogginypa0j8k2w` (`customer_id`),
+  ADD KEY `FKs5ajykg9m7421knv9buhuk81h` (`futsal_id`),
+  ADD KEY `FKo665l8pw800pnpgxgm5ocl01i` (`ground_id`);
+
+--
 -- Indexes for table `ground`
 --
 ALTER TABLE `ground`
@@ -553,6 +664,12 @@ ALTER TABLE `ground`
 ALTER TABLE `login`
   ADD PRIMARY KEY (`login_id`),
   ADD KEY `FKk88164dmn15688pqsi8xi6tji` (`account_id`);
+
+--
+-- Indexes for table `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`menu_id`);
 
 --
 -- Indexes for table `user_group`
@@ -592,19 +709,31 @@ ALTER TABLE `bill`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT for table `discount`
+-- AUTO_INCREMENT for table `customer`
 --
-ALTER TABLE `discount`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `customer`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `discount_detail`
+--
+ALTER TABLE `discount_detail`
+  MODIFY `discount_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `discount_master`
+--
+ALTER TABLE `discount_master`
+  MODIFY `discount_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `futsal_operation_jn`
@@ -613,10 +742,22 @@ ALTER TABLE `futsal_operation_jn`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
+-- AUTO_INCREMENT for table `game`
+--
+ALTER TABLE `game`
+  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
   MODIFY `login_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `menu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_group`

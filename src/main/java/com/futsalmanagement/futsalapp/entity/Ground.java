@@ -37,13 +37,18 @@ public class Ground {
     public Ground() {
     }
 
-//    public Set<Booking> getBookings() {
-//        return bookings;
-//    }
-//
-//    public void setBookings(Set<Booking> bookings) {
-//        this.bookings = bookings;
-//    }
+    public Ground(@Size(max = 100) String ground_name, @Size(max = 100) String opening_hour, @Size(max = 100) String closing_hour, BigDecimal unit_hour_price, @Size(max = 100) String image, @Size(max = 100) String status) {
+        this.ground_name = ground_name;
+        this.opening_hour = opening_hour;
+        this.closing_hour = closing_hour;
+        this.unit_hour_price = unit_hour_price;
+        this.image = image;
+        this.status = status;
+    }
+
+    public Ground inGenenericFormat(){
+        return new Ground(this.ground_name, this.opening_hour, this.closing_hour,this.unit_hour_price,this.image,this.status);
+    }
 
     public String getStatus() {
         return status;

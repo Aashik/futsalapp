@@ -1,11 +1,10 @@
 package com.futsalmanagement.futsalapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 
 @Entity
-public class Account {
+public class Account extends Object {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

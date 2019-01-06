@@ -7,5 +7,8 @@ public enum  Status {
 
     STARTED, COMPLETED,
 
-    DIRECT_ENTRY, BOOKED;
+    DIRECT_ENTRY, BOOKED,
+
+    //for discounts
+    ACTIVE,CURRENT,INACTIVE;
 }
