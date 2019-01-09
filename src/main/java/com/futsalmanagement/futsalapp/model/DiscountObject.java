@@ -8,15 +8,16 @@ public class DiscountObject {
 
     private int discount_master_id;
     private String discount_name;
-    private int discount_type;
+    private String date_from;
+    private String date_to;
+    private String status;
     private String remarks;
     private int futsal_id;
     private int ground_id;
     private List<DiscountDetail> discountDetails;
 
-    public DiscountObject(String discount_name, int discount_type, String remarks, int futsal_id, int ground_id, List<DiscountDetail> discountDetails) {
+    public DiscountObject(String discount_name, String remarks, int futsal_id, int ground_id, List<DiscountDetail> discountDetails) {
         this.discount_name = discount_name;
-        this.discount_type = discount_type;
         this.remarks = remarks;
         this.futsal_id = futsal_id;
         this.ground_id = ground_id;
@@ -24,6 +25,30 @@ public class DiscountObject {
     }
 
     public DiscountObject() {
+    }
+
+    public String getDate_from() {
+        return date_from;
+    }
+
+    public void setDate_from(String date_from) {
+        this.date_from = date_from;
+    }
+
+    public String getDate_to() {
+        return date_to;
+    }
+
+    public void setDate_to(String date_to) {
+        this.date_to = date_to;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getDiscount_master_id() {
@@ -41,14 +66,6 @@ public class DiscountObject {
 
     public void setDiscount_name(String discount_name) {
         this.discount_name = discount_name;
-    }
-
-    public int getDiscount_type() {
-        return discount_type;
-    }
-
-    public void setDiscount_type(int discount_type) {
-        this.discount_type = discount_type;
     }
 
     public String getRemarks() {

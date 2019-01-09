@@ -11,38 +11,19 @@ public class DiscountDetail {
     @ManyToOne
     @JoinColumn(name = "discount_master_id")
     private DiscountMaster discountMaster;
-    private String weekday ;
-    private String date_from;
-    private String date_to;
     private String time_from;
     private String time_to;
     private int margin;
-    private String status;
 
-    public DiscountDetail(DiscountMaster discountMaster, String weekday, String date_from, String date_to, String time_from, String time_to, int margin, String status) {
-        this.discountMaster = discountMaster;
-        this.weekday = weekday;
-        this.date_from = date_from;
-        this.date_to = date_to;
+    public DiscountDetail(int discount_detail_id, String time_from, String time_to, int margin) {
+        this.discount_detail_id= discount_detail_id;
         this.time_from = time_from;
         this.time_to = time_to;
         this.margin = margin;
-        this.status = status;
-    }
-
-    public DiscountDetail(int discount_detail_id,String weekday, String date_from, String date_to, String time_from, String time_to, int margin, String status) {
-        this.discount_detail_id = discount_detail_id;
-        this.weekday = weekday;
-        this.date_from = date_from;
-        this.date_to = date_to;
-        this.time_from = time_from;
-        this.time_to = time_to;
-        this.margin = margin;
-        this.status = status;
     }
 
     public DiscountDetail inAnotherFormat(){
-        return new DiscountDetail(this.discount_detail_id,this.weekday,this.date_from,this.date_to,this.time_from,this.time_to,this.margin,this.status);
+        return new DiscountDetail(this.discount_detail_id,this.time_from,this.time_to,this.margin);
     }
 
     public DiscountDetail() {
@@ -64,29 +45,6 @@ public class DiscountDetail {
         this.discountMaster = discountMaster;
     }
 
-    public String getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
-    }
-
-    public String getDate_from() {
-        return date_from;
-    }
-
-    public void setDate_from(String date_from) {
-        this.date_from = date_from;
-    }
-
-    public String getDate_to() {
-        return date_to;
-    }
-
-    public void setDate_to(String date_to) {
-        this.date_to = date_to;
-    }
 
     public String getTime_from() {
         return time_from;
@@ -112,26 +70,14 @@ public class DiscountDetail {
         this.margin = margin;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "DiscountDetail{" +
                 "discount_detail_id=" + discount_detail_id +
                 ", discountMaster=" + discountMaster +
-                ", weekday='" + weekday + '\'' +
-                ", date_from='" + date_from + '\'' +
-                ", date_to='" + date_to + '\'' +
                 ", time_from='" + time_from + '\'' +
                 ", time_to='" + time_to + '\'' +
                 ", margin=" + margin +
-                ", status=" + status +
                 '}';
     }
 }

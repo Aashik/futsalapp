@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,7 @@ public class BookingController {
 
     //create a booking
     @RequestMapping(value = "api/createBooking", method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> createBooking(@RequestBody BookingRequest booking) {
+    public ResponseEntity<GlobalResponse> createBooking(@RequestBody BookingRequest booking){
         //validate futsal and ground availability
         if (futsalService.checkFutsalAvailability(booking.getFutsal_id()) &&
                 groundService.checkGroundAvailability(booking.getFutsal_id(), booking.getGround_id())) {

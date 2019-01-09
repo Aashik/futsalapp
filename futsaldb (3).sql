@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2019 at 06:21 AM
+-- Generation Time: Jan 09, 2019 at 10:55 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -147,27 +147,21 @@ INSERT INTO `address` (`address_id`, `country`, `city`, `state_district`, `stree
 CREATE TABLE `bill` (
   `bill_id` int(11) NOT NULL,
   `billing_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `book_person_name` varchar(255) DEFAULT NULL,
-  `play_duration` double NOT NULL,
-  `play_start_time` varchar(255) DEFAULT NULL,
-  `futsal_id` int(11) DEFAULT NULL,
-  `ground_id` int(11) DEFAULT NULL,
   `addition_expense_amount` decimal(19,2) DEFAULT NULL,
-  `play_amount` decimal(19,2) DEFAULT NULL
+  `play_amount` decimal(19,2) DEFAULT NULL,
+  `customer_name` varchar(255) DEFAULT NULL,
+  `discount_margin` int(11) NOT NULL,
+  `discountable_amount` decimal(19,2) DEFAULT NULL,
+  `total_amount` decimal(19,2) DEFAULT NULL,
+  `game_id` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bill`
 --
 
-INSERT INTO `bill` (`bill_id`, `billing_date`, `book_person_name`, `play_duration`, `play_start_time`, `futsal_id`, `ground_id`, `addition_expense_amount`, `play_amount`) VALUES
-(1, '2018-11-15 05:12:17', 'John Doe', 2, '2018-11-15 14:30:00', 536, 537, NULL, NULL),
-(2, '2018-11-15 05:12:17', 'John Doe', 2, '2018-11-15 16:30:00', 536, 537, NULL, NULL),
-(3, '2018-11-15 05:13:32', 'John Doe', 2, '2018-11-15 16:30:00', 536, 537, NULL, NULL),
-(4, '2018-11-15 05:26:01', 'John Doe', 2, '2018-11-15 18:30:00', 536, 537, NULL, NULL),
-(13, '2018-11-23 10:19:58', 'Jonyy doye', 2, '2018-11-15 20:00:00', 536, 537, '80.00', '900.00'),
-(14, '2018-11-23 11:10:07', 'Jonyy doye', 2, '2018-11-15 20:00:00', 536, 537, '80.00', '900.00'),
-(15, '2018-11-23 11:16:05', 'Jonyy doye', 2, '2018-11-15 20:00:00', 536, 537, '80.00', '900.00');
+INSERT INTO `bill` (`bill_id`, `billing_date`, `addition_expense_amount`, `play_amount`, `customer_name`, `discount_margin`, `discountable_amount`, `total_amount`, `game_id`) VALUES
+(11, '2019-01-08 10:13:09', '130.00', '1000.00', 'Kushal Bhandari', 25, '250.00', '880.00', 11);
 
 -- --------------------------------------------------------
 
@@ -225,7 +219,8 @@ INSERT INTO `customer` (`customer_id`, `address`, `contact_number`, `email`, `fu
 (3, '7ytasdf banesowrkd', '9849581817', 'basf@gmail.com', 'Hari Kishan', 547, 2),
 (4, NULL, '9847281712', NULL, 'Ram sharan Mahat', 547, 1),
 (5, NULL, '9847564125', NULL, 'Pradip Sapkota', 547, 6),
-(6, 'potato', '984958784', 'basf@gmail.com', 'Ravi Krishan', 547, 1);
+(6, 'potato', '984958784', 'basf@gmail.com', 'Ravi Krishan', 547, 1),
+(7, 'Samakhsi', '9849581818', 'kushlkf@gmail.com', 'Kushal Bhandari', 547, 1);
 
 -- --------------------------------------------------------
 
@@ -235,13 +230,9 @@ INSERT INTO `customer` (`customer_id`, `address`, `contact_number`, `email`, `fu
 
 CREATE TABLE `discount_detail` (
   `discount_detail_id` int(11) NOT NULL,
-  `date_from` varchar(255) DEFAULT NULL,
-  `date_to` varchar(255) DEFAULT NULL,
   `margin` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL,
   `time_from` varchar(255) DEFAULT NULL,
   `time_to` varchar(255) DEFAULT NULL,
-  `weekday` varchar(255) DEFAULT NULL,
   `discount_master_id` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -249,12 +240,9 @@ CREATE TABLE `discount_detail` (
 -- Dumping data for table `discount_detail`
 --
 
-INSERT INTO `discount_detail` (`discount_detail_id`, `date_from`, `date_to`, `margin`, `status`, `time_from`, `time_to`, `weekday`, `discount_master_id`) VALUES
-(2, '2019-01-05', '2019-01-10', 20, 'ACTIVE', '06:00', '10:00', 'SUN', 8),
-(3, '2019-01-05', '2019-01-10', 20, 'ACTIVE', '06:00', '10:00', 'SUN', 9),
-(4, '2019-01-05', '2019-01-10', 25, 'ACTIVE', '06:00', '20:00', NULL, 13),
-(5, '2019-01-05', '2019-01-10', 25, 'ACTIVE', '06:00', '12:00', NULL, 14),
-(6, '2019-01-05', '2019-01-10', 25, 'ACTIVE', '01:00', '20:00', NULL, 14);
+INSERT INTO `discount_detail` (`discount_detail_id`, `margin`, `time_from`, `time_to`, `discount_master_id`) VALUES
+(9, 15, '06:00', '12:00', 15),
+(10, 25, '13:00', '20:00', 15);
 
 -- --------------------------------------------------------
 
@@ -265,22 +253,21 @@ INSERT INTO `discount_detail` (`discount_detail_id`, `date_from`, `date_to`, `ma
 CREATE TABLE `discount_master` (
   `discount_master_id` int(11) NOT NULL,
   `discount_name` varchar(255) DEFAULT NULL,
-  `discount_type` int(11) NOT NULL,
   `insert_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `remarks` varchar(255) DEFAULT NULL,
   `futsal_id` int(11) DEFAULT NULL,
-  `ground_id` int(11) DEFAULT NULL
+  `ground_id` int(11) DEFAULT NULL,
+  `date_from` varchar(255) DEFAULT NULL,
+  `date_to` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `discount_master`
 --
 
-INSERT INTO `discount_master` (`discount_master_id`, `discount_name`, `discount_type`, `insert_time`, `remarks`, `futsal_id`, `ground_id`) VALUES
-(8, 'Festival Heavy DISCOUNT', 2, '2019-01-04 10:06:25', ' good offer school childrens', 547, 548),
-(9, 'Festival Heavy DISCOUNT', 2, '2019-01-04 10:13:32', ' good offer school childrens', 547, 548),
-(13, 'Winter Discount', 2, '2019-01-05 07:06:36', 'come get some heat', 547, 548),
-(14, 'Jan first discount', 2, NULL, 'happy new year', 547, 548);
+INSERT INTO `discount_master` (`discount_master_id`, `discount_name`, `insert_time`, `remarks`, `futsal_id`, `ground_id`, `date_from`, `date_to`, `status`) VALUES
+(15, 'Saturday Discount', '2019-01-06 06:47:16', 'happy new year', 547, 548, '2019-01-06', '2019-01-10', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -302,7 +289,9 @@ CREATE TABLE `expense` (
 
 INSERT INTO `expense` (`expense_id`, `quantity`, `game_id`, `menu_id`, `amount`) VALUES
 (5, 5, 10, 1, '100.00'),
-(6, 2, 10, 2, '50.00');
+(6, 2, 10, 2, '50.00'),
+(7, 4, 11, 1, '80.00'),
+(8, 2, 11, 4, '50.00');
 
 -- --------------------------------------------------------
 
@@ -408,7 +397,8 @@ INSERT INTO `game` (`game_id`, `entry_date`, `game_status`, `game_type`, `play_d
 (7, '2018-12-27 08:31:26', 'STARTED', 'DIRECT_ENTRY', '2018-12-27', 1.5, '17:30', 547, 548, 3),
 (8, '2018-12-27 08:33:34', 'STARTED', 'DIRECT_ENTRY', '2018-12-27', 1.5, '17:30', 547, 548, 3),
 (9, '2018-12-27 11:06:32', 'STARTED', 'BOOKED', '2018-12-27', 2, '16:30', 547, 548, 4),
-(10, '2019-01-03 05:43:15', 'STARTED', 'DIRECT_ENTRY', '2019-01-03', 1.5, '12:30', 547, 548, 6);
+(10, '2019-01-03 05:43:15', 'STARTED', 'DIRECT_ENTRY', '2019-01-03', 1.5, '12:30', 547, 548, 6),
+(11, '2019-01-06 09:20:20', 'STARTED', 'DIRECT_ENTRY', '2019-01-06', 2, '17:00', 547, 548, 7);
 
 -- --------------------------------------------------------
 
@@ -587,8 +577,7 @@ ALTER TABLE `address`
 --
 ALTER TABLE `bill`
   ADD PRIMARY KEY (`bill_id`),
-  ADD KEY `FKri33j2e4sat10cvced3ptepno` (`futsal_id`),
-  ADD KEY `FKiy2wkkvqypgq1qfhsp9yjhkfy` (`ground_id`);
+  ADD KEY `FKmhd4f5hyrbnrl7bqc17cschwh` (`game_id`);
 
 --
 -- Indexes for table `booking`
@@ -703,7 +692,7 @@ ALTER TABLE `account_operation_jn`
 -- AUTO_INCREMENT for table `bill`
 --
 ALTER TABLE `bill`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `booking`
@@ -715,25 +704,25 @@ ALTER TABLE `booking`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `discount_detail`
 --
 ALTER TABLE `discount_detail`
-  MODIFY `discount_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `discount_detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `discount_master`
 --
 ALTER TABLE `discount_master`
-  MODIFY `discount_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `discount_master_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `expense_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `futsal_operation_jn`
@@ -745,7 +734,7 @@ ALTER TABLE `futsal_operation_jn`
 -- AUTO_INCREMENT for table `game`
 --
 ALTER TABLE `game`
-  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `game_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `login`

@@ -27,22 +27,22 @@ public class ReportController {
     @Autowired
     private BillService billService;
 
-    @RequestMapping(value = "api/getDailySalesReport" , method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> getDailySalesReport(@RequestBody RequestObject request){
-        int futsal_id = request.getFutsal_id();
-        int ground_id = request.getGround_id();
-        List<SalesReport> saleslist = billService.getDailySales(request.getDate(),futsal_id,ground_id);
-        if (saleslist != null && saleslist.size() > 0) {
-            BigDecimal totalsales = billService.calculateTotalDailySalesAmount(saleslist);
-            Map<String, Object> salesResponse = new HashMap<>();
-            salesResponse.put("total sales", totalsales);
-            salesResponse.put("Sale list", saleslist);
-            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "sales list fetched", salesResponse);
-            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-        }
-        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR , "null value retrieved. no any sales" , null);
-        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "api/getDailySalesReport" , method = RequestMethod.POST)
+//    public ResponseEntity<GlobalResponse> getDailySalesReport(@RequestBody RequestObject request){
+//        int futsal_id = request.getFutsal_id();
+//        int ground_id = request.getGround_id();
+//        List<SalesReport> saleslist = billService.getDailySales(request.getDate(),futsal_id,ground_id);
+//        if (saleslist != null && saleslist.size() > 0) {
+//            BigDecimal totalsales = billService.calculateTotalDailySalesAmount(saleslist);
+//            Map<String, Object> salesResponse = new HashMap<>();
+//            salesResponse.put("total sales", totalsales);
+//            salesResponse.put("Sale list", saleslist);
+//            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "sales list fetched", salesResponse);
+//            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+//        }
+//        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR , "null value retrieved. no any sales" , null);
+//        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+ //   }
 
 
 

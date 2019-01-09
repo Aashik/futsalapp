@@ -1,10 +1,6 @@
 package com.futsalmanagement.futsalapp.entity;
 
-import org.hibernate.annotations.JoinColumnOrFormula;
-
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -14,8 +10,10 @@ public class DiscountMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int discount_master_id;
     private String discount_name;
-    private int discount_type;
+    private String date_from;
+    private String date_to;
     private String remarks;
+    private String status;
     @ManyToOne
     @JoinColumn(name = "futsal_id")
     private Futsal futsal;
@@ -26,27 +24,53 @@ public class DiscountMaster {
     @Temporal(TemporalType.TIMESTAMP)
     private Date insert_time;
 
-    public DiscountMaster(String discount_name, int discount_type, String remarks, Futsal futsal, Ground ground) {
+    public DiscountMaster(String discount_name, String remarks, Futsal futsal, Ground ground) {
         this.discount_name = discount_name;
-        this.discount_type = discount_type;
         this.remarks = remarks;
         this.futsal = futsal;
         this.ground = ground;
     }
 
-    public DiscountMaster(int discount_master_id, String discount_name, int discount_type, String remarks, Date insert_time) {
+    public DiscountMaster(int discount_master_id, String discount_name,String date_from, String date_to, String remarks, String status, Date insert_time,Ground ground) {
+        this.ground = ground;
+        this.date_from = date_from;
+        this.date_to = date_to;
         this.discount_master_id = discount_master_id;
         this.discount_name = discount_name;
-        this.discount_type = discount_type;
         this.remarks = remarks;
+        this.status = status;
         this.insert_time = insert_time;
     }
 
     public DiscountMaster inAnotherFormat() {
-       return new DiscountMaster(this.discount_master_id, this.discount_name,this.discount_type,this.remarks,this.insert_time);
+       return new DiscountMaster(this.discount_master_id, this.discount_name, this.date_from,this.date_to,this.remarks,this.status,this.insert_time,ground.inGenenericFormat());
     }
 
     public DiscountMaster() {
+    }
+
+    public String getDate_from() {
+        return date_from;
+    }
+
+    public void setDate_from(String date_from) {
+        this.date_from = date_from;
+    }
+
+    public String getDate_to() {
+        return date_to;
+    }
+
+    public void setDate_to(String date_to) {
+        this.date_to = date_to;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getInsert_time() {
@@ -71,14 +95,6 @@ public class DiscountMaster {
 
     public void setDiscount_name(String discount_name) {
         this.discount_name = discount_name;
-    }
-
-    public int getDiscount_type() {
-        return discount_type;
-    }
-
-    public void setDiscount_type(int discount_type) {
-        this.discount_type = discount_type;
     }
 
     public String getRemarks() {
@@ -110,10 +126,11 @@ public class DiscountMaster {
         return "DiscountMaster{" +
                 "discount_master_id=" + discount_master_id +
                 ", discount_name='" + discount_name + '\'' +
-                ", discount_type=" + discount_type +
+                ", date_from='" + date_from + '\'' +
+                ", date_to='" + date_to + '\'' +
                 ", remarks='" + remarks + '\'' +
-                ", futsal=" + futsal +
-                ", ground=" + ground +
+                ", status='" + status + '\'' +
+                ", insert_time=" + insert_time +
                 '}';
     }
 }

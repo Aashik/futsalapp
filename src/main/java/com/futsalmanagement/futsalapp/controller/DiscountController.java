@@ -1,5 +1,6 @@
 package com.futsalmanagement.futsalapp.controller;
 
+import com.futsalmanagement.futsalapp.entity.DiscountMaster;
 import com.futsalmanagement.futsalapp.model.DiscountObject;
 import com.futsalmanagement.futsalapp.model.GlobalResponse;
 import com.futsalmanagement.futsalapp.model.Status;
@@ -31,12 +32,14 @@ public class DiscountController {
     public ResponseEntity<GlobalResponse> addDiscount(@RequestBody DiscountObject discountObject){
         if (futsalService.checkFutsalAvailability(discountObject.getFutsal_id())
                 && groundService.checkGroundAvailability(discountObject.getFutsal_id(), discountObject.getGround_id())) {
-            int result = discountMasterService.saveDiscount(discountObject);
-            if (result == 1) {
-                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "discount added successfuly", null);
+            Map  resultMap = discountMasterService.saveDiscount(discountObject);
+            int responseCode = Integer.parseInt(resultMap.get("response_code").toString());
+            String message = (String)resultMap.get("message");
+            if (responseCode == 1) {
+                GlobalResponse response = new GlobalResponse(Status.SUCCESS, message, null);
                 return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
             }
-            GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "cannot perform operation. check Request again", null);
+            GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, message, null);
             return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
         }
         GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "invalid futsal or ground id ", null);
@@ -53,6 +56,20 @@ public class DiscountController {
             return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
         }
         GlobalResponse response = new GlobalResponse(Status.SUCCESS,"discount retrieved" , discoultlist);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "api/updateDiscountStatus" , method = RequestMethod.POST)
+    public ResponseEntity<GlobalResponse> updateDiscountStatus(@RequestBody Map<String, Object> requestParam){
+        int discount_master_id = Integer.parseInt(requestParam.get("discount_master_id").toString());
+        char request_status = requestParam.get("discount_status").toString().charAt(0);
+
+        DiscountMaster updatediscountMaster = discountMasterService.updateDiscountStatus(request_status,discount_master_id);
+        if (updatediscountMaster != null){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "status updated successfully", updatediscountMaster.inAnotherFormat());
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "sorry invalid request. cannot update", null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
