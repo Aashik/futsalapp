@@ -180,6 +180,21 @@ public class AccountController {
 
     }
 
+
+    @RequestMapping(value = "api/getEmployeeById" , method = RequestMethod.POST)
+    public ResponseEntity<GlobalResponse> getEmployeeById(@RequestBody Map<String,Integer> requestMapper) {
+        int futsal_id = requestMapper.get("futsal_id");
+        int account_id = requestMapper.get("account_id");
+        Account foundAcc = accountService.getAccountById(futsal_id,account_id);
+        if (foundAcc != null){
+            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "account fetched successfully", foundAcc.toEmployeeFormat());
+            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "invalid futsal id or account id", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "api/admin/getAllEmployee" , method = RequestMethod.GET)
     public ResponseEntity<GlobalResponse> getAllEmployee(@RequestParam("futsal_id") int futsal_id){
 

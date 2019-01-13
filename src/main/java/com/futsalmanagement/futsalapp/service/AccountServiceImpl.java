@@ -73,5 +73,12 @@ public class AccountServiceImpl implements AccountService {
         return foundAccount;
     }
 
-
+    @Override
+    public Account getAccountById(int futsal_id, int account_id) {
+        Account foundAccount = accountDao.findAll().stream()
+                .filter(account -> account.getFutsal().getFutsal_id() == futsal_id && account.getId() == account_id)
+                .findAny()
+                .orElse(null);
+        return foundAccount;
+    }
 }

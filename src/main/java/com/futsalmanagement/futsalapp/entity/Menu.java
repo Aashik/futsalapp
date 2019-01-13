@@ -1,9 +1,6 @@
 package com.futsalmanagement.futsalapp.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -16,6 +13,9 @@ public class Menu {
     private String menu_item;
     private BigDecimal unit_price;
     private String description;
+    @ManyToOne
+    @JoinColumn(name = "futsal_id")
+    private Futsal futsal;
 
 
     public Menu(int menu_id, String menu_item, BigDecimal unit_price, String description) {
@@ -26,6 +26,18 @@ public class Menu {
     }
 
     public Menu() {
+    }
+
+    public Menu inSimpleFormat(){
+        return new Menu(this.menu_id, this.menu_item, this.unit_price, this.description);
+    }
+
+    public Futsal getFutsal() {
+        return futsal;
+    }
+
+    public void setFutsal(Futsal futsal) {
+        this.futsal = futsal;
     }
 
     public int getMenu_id() {

@@ -34,11 +34,14 @@ public class Account extends Object {
         this.password = password;
     }
 
-    public Account(String userName, String fullName, String email, String contactNo) {
+    public Account(int id, String userName, String fullName, String email, String contactNo,boolean status,UserGroup userGroup){
+        this.id = id;
         this.userName = userName;
         this.fullName = fullName;
         this.email = email;
         this.contactNo = contactNo;
+        this.status = status;
+        this.userGroup = userGroup;
     }
 
     public Futsal getFutsal() {
@@ -115,6 +118,6 @@ public class Account extends Object {
 
 
     public Account toEmployeeFormat() {
-        return new Account(this.userName, this.fullName,this.email,this.contactNo);
+        return new Account(this.id, this.userName, this.fullName,this.email,this.contactNo,this.status, this.userGroup);
     }
 }

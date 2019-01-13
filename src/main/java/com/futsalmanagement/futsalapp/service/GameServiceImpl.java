@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameServiceImpl implements GameService {
@@ -32,9 +34,13 @@ public class GameServiceImpl implements GameService {
            return requestdate.equals(todaydate);
     }
 
-
-
-
+    @Override
+    public List<Game> getGameByFutsal(int futsal_id) {
+        return gameDao.findAll().stream()
+                .filter(game -> game.getPlayFutsal().getFutsal_id() == futsal_id)
+                .map(game -> game.inSimpleFormat())
+                .collect(Collectors.toList());
+    }
 
     @Override
     public boolean checkifValidTime(String requestdate , String requesttime){

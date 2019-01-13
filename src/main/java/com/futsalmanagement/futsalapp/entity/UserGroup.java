@@ -21,6 +21,13 @@ public class UserGroup {
         this.user_group_name = user_group_name;
         this.user_group_desc = user_group_desc;
     }
+    public UserGroup(String user_group_name){
+        this.user_group_name = user_group_name;
+    }
+
+    public UserGroup changeFormat(){
+        return new UserGroup(this.user_group_name);
+    }
 
     public UserGroup() {
     }

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.OutputKeys;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -117,13 +118,48 @@ public class GameController {
 
     //api to add menu item
     @RequestMapping(value = "api/addMenu", method = RequestMethod.POST)
-    public ResponseEntity<GlobalResponse> addMenu(@RequestBody Menu menu){
-        Menu inserted_menu = menuService.addMenu(menu);
-        if (inserted_menu != null) {
-            GlobalResponse response = new GlobalResponse(Status.SUCCESS, "menu added successfully", inserted_menu);
-            return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    public ResponseEntity<GlobalResponse> addMenu(@RequestBody Menu menu, @RequestParam("futsal_id") int futsal_id){
+        if (futsalService.checkFutsalAvailability(futsal_id)){
+            menu.setFutsal(futsalService.getFutsalById(futsal_id));
+            Menu inserted_menu = menuService.addMenu(menu);
+            if (inserted_menu != null) {
+                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "menu added successfully", inserted_menu.inSimpleFormat());
+                return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+            }
         }
         GlobalResponse response = new GlobalResponse(Status.SYSTEM_ERROR, "Couldnot perform operation", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "api/getMenuListByFutsal" , method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getMenuListByFutsal(@RequestParam("futsal_id") int futsal_id){
+        if (futsalService.checkFutsalAvailability(futsal_id)){
+            List<Menu> menulist = menuService.getMenuListByFutsal(futsal_id);
+            if (menulist.size() > 0){
+                List<Menu> simpleFormatMenuList = menulist.stream()
+                        .map(menu -> menu.inSimpleFormat()).collect(Collectors.toList());
+
+             GlobalResponse response = new GlobalResponse(Status.SUCCESS, "menu data retrieved successfully", simpleFormatMenuList);
+             return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+            }
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "invalid Operation.", null);
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
+
+        @RequestMapping(value = "api/getMenuById", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getMenuById(@RequestParam("menu_id") int menu_id,
+                                                      @RequestParam("futsal_id") int futsal_id){
+
+        if (futsalService.checkFutsalAvailability(futsal_id)){
+            Menu foundmenu = menuService.findMenuById(menu_id);
+            if (foundmenu != null){
+                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "menu retrieved ", foundmenu.inSimpleFormat());
+                return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+            }
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid operation.", null);
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
@@ -141,4 +177,16 @@ public class GameController {
         return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "api/getGameListByFutsal", method = RequestMethod.GET)
+    public ResponseEntity<GlobalResponse> getGameListByFutsal(@RequestParam("futsal_id") int futsal_id){
+        if (futsalService.checkFutsalAvailability(futsal_id)){
+            List<Game> gameList = gameService.getGameByFutsal(futsal_id);
+            if (gameList.size() > 0 ){
+                GlobalResponse response = new GlobalResponse(Status.SUCCESS, "All Games by futsal retrieved", gameList );
+                return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+            }
+        }
+        GlobalResponse response = new GlobalResponse(Status.DATA_ERROR, "Invalid operation. Null data recieved", null );
+        return new ResponseEntity<GlobalResponse>(response, HttpStatus.OK);
+    }
 }

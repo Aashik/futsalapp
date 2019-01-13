@@ -46,6 +46,22 @@ public class Game {
         this.playGround = playGround;
     }
 
+    public Game(int game_id,@Size(max = 10) String play_date, @Size(max = 10) String play_start_time, double play_duration, @Size(max = 20) String game_type, @Size(max = 20) String game_status, Ground playGround, Customer customer, Date entry_date) {
+        this.game_id = game_id;
+        this.play_date = play_date;
+        this.play_start_time = play_start_time;
+        this.play_duration = play_duration;
+        this.game_type = game_type;
+        this.game_status = game_status;
+        this.playGround = playGround;
+        this.customer = customer;
+        this.entry_date = entry_date;
+    }
+
+    public Game inSimpleFormat(){
+        return new Game(this.game_id, this.play_date, this.play_start_time,this.play_duration,this.game_type, this.game_status,this.playGround.inGenenericFormat(), this.customer.inGenericFOrmat(),this.entry_date);
+    }
+
     public Game() {
     }
 
